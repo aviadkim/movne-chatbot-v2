@@ -1,21 +1,23 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:13
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: movne_chatbot_v2
-    ports:
-      - "5432:5432"
+      - ENVIRONMENT=development
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./backend:/app
 
-  redis:
-    image: redis:6
+  frontend:
+    build: ./frontend
     ports:
-      - "6379:6379"
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://backend:8000
+    depends_on:
+      - backend
 
 volumes:
-  postgres_data:
+  app-data:
