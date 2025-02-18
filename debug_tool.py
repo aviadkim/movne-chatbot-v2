@@ -1,166 +1,139 @@
 import sys
-import subprocess
-import os
 import logging
 import requests
+import subprocess
 from pathlib import Path
-import importlib
 import pkg_resources
+import docker
 
-# הגדרת לוגר
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('debug.log'),
-        logging.StreamHandler(sys.stdout)
-    ]
+    format='%(asctime)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
-class SystemDebugger:
-    def __init__(self):
-        self.project_root = Path.cwd()
-        self.backend_dir = self.project_root / 'backend'
-        self.frontend_dir = self.project_root / 'frontend'
-        self.errors = []
-        self.warnings = []
-
-    def check_python_dependencies(self):
-        """בדיקת תלויות Python"""
-        logger.info("Checking Python dependencies...")
-        requirements_file = self.backend_dir / 'requirements.txt'
-        
+def check_python_dependencies():
+    logger.info("Checking Python dependencies...")
+    required = [
+        'fastapi>=0.68.0',
+        'uvicorn>=0.15.0',
+        'pydantic>=1.8.0',
+        'pydantic-settings>=2.0.0',
+        'python-dotenv>=0.19.0',
+        'sqlalchemy>=1.4.23',
+        'psycopg2-binary>=2.9.1',
+        'alembic>=1.7.3',
+        'chromadb>=0.4.15',
+        'sentence-transformers>=2.2.2',
+        'pytest>=7.0.0',
+        'httpx>=0.25.0'
+    ]
+    
+    for package in required:
         try:
-            with open(requirements_file) as f:
-                requirements = pkg_resources.parse_requirements(f)
-                for req in requirements:
-                    try:
-                        pkg_resources.require(str(req))
-                        logger.info(f"✓ {req} installed correctly")
-                    except Exception as e:
-                        self.errors.append(f"Missing or incorrect package: {req}")
-                        logger.error(f"✗ {req} - {str(e)}")
+            pkg_resources.require(package)
+            logger.info(f"✓ {package} installed correctly")
         except Exception as e:
-            self.errors.append(f"Failed to read requirements.txt: {str(e)}")
+            logger.error(f"✗ {package} issue: {str(e)}")
 
-    def check_node_dependencies(self):
-        """בדיקת תלויות Node.js"""
-        logger.info("Checking Node.js dependencies...")
-        package_json = self.frontend_dir / 'package.json'
+def check_docker_services():
+    logger.info("Checking Docker services...")
+    client = docker.from_env()
+    required_services = ['backend', 'frontend', 'db', 'ollama']
+    
+    try:
+        containers = client.containers.list()
+        running_services = [container.name for container in containers]
         
-        try:
-            if not os.path.exists(self.frontend_dir / 'node_modules'):
-                self.warnings.append("node_modules directory not found")
-            
-            result = subprocess.run(['npm', 'list'], 
-                                 cwd=self.frontend_dir, 
-                                 capture_output=True, 
-                                 text=True)
-            if result.returncode != 0:
-                self.warnings.append("Some npm packages might be missing")
-        except Exception as e:
-            self.errors.append(f"Failed to check npm dependencies: {str(e)}")
-
-    def check_file_structure(self):
-        """בדיקת מבנה הקבצים"""
-        logger.info("Checking file structure...")
-        required_files = [
-            'backend/app/main.py',
-            'backend/app/core/config.py',
-            'backend/requirements.txt',
-            'frontend/src/App.jsx',
-            'frontend/src/index.js',
-            'frontend/package.json',
-            '.env.example',
-            'docker-compose.yml'
-        ]
-        
-        for file_path in required_files:
-            full_path = self.project_root / file_path
-            if not full_path.exists():
-                self.errors.append(f"Missing required file: {file_path}")
+        for service in required_services:
+            if any(service in container for container in running_services):
+                logger.info(f"✓ {service} is running")
             else:
-                logger.info(f"✓ Found {file_path}")
+                logger.error(f"✗ {service} is not running")
+    except Exception as e:
+        logger.error(f"Docker check failed: {str(e)}")
 
-    def check_env_variables(self):
-        """בדיקת משתני סביבה"""
-        logger.info("Checking environment variables...")
-        required_vars = [
-            'OPENAI_API_KEY',
-            'POSTGRES_USER',
-            'POSTGRES_PASSWORD',
-            'POSTGRES_DB'
-        ]
+def check_file_structure():
+    logger.info("Checking file structure...")
+    required_files = [
+        'backend/app/main.py',
+        'backend/app/core/config.py',
+        'backend/requirements.txt',
+        'frontend/src/App.jsx',
+        'frontend/src/index.js',
+        'frontend/package.json',
+        '.env',
+        'docker-compose.yml',
+        'frontend/Dockerfile',
+        'backend/Dockerfile'
+    ]
+    
+    for file_path in required_files:
+        if Path(file_path).exists():
+            logger.info(f"✓ Found {file_path}")
+        else:
+            logger.error(f"✗ Missing {file_path}")
+
+def check_ollama_service():
+    logger.info("Checking Ollama service...")
+    try:
+        response = requests.get("http://localhost:11434/api/version")
+        if response.status_code == 200:
+            logger.info("✓ Ollama service is responding")
+        else:
+            logger.error("✗ Ollama service returned unexpected status code")
+    except requests.exceptions.RequestException:
+        logger.error("✗ Ollama service is not accessible")
+
+def check_env_variables():
+    logger.info("Checking environment variables...")
+    required_vars = [
+        'POSTGRES_USER',
+        'POSTGRES_PASSWORD',
+        'POSTGRES_DB',
+        'DATABASE_URL',
+        'SECRET_KEY'
+    ]
+    
+    from dotenv import load_dotenv
+    import os
+    
+    load_dotenv()
+    
+    for var in required_vars:
+        if os.getenv(var):
+            logger.info(f"✓ {var} is set")
+        else:
+            logger.error(f"✗ {var} is not set")
+
+def run_backend_tests():
+    logger.info("Running backend tests...")
+    try:
+        result = subprocess.run(
+            ['pytest', 'backend'],
+            capture_output=True,
+            text=True
+        )
+        print(result.stdout)
+        if result.returncode != 0:
+            print(result.stderr)
+    except Exception as e:
+        logger.error(f"Failed to run tests: {str(e)}")
+
+def main():
+    try:
+        check_python_dependencies()
+        check_docker_services()
+        check_file_structure()
+        check_ollama_service()
+        check_env_variables()
+        run_backend_tests()
         
-        for var in required_vars:
-            if not os.getenv(var):
-                self.warnings.append(f"Missing environment variable: {var}")
-
-    def check_database_connection(self):
-        """בדיקת חיבור למסד הנתונים"""
-        logger.info("Checking database connection...")
-        try:
-            from backend.app.db.session import test_connection
-            if test_connection():
-                logger.info("✓ Database connection successful")
-            else:
-                self.errors.append("Database connection failed")
-        except Exception as e:
-            self.errors.append(f"Database connection error: {str(e)}")
-
-    def run_backend_tests(self):
-        """הרצת בדיקות Backend"""
-        logger.info("Running backend tests...")
-        try:
-            result = subprocess.run(['pytest'], 
-                                 cwd=self.backend_dir, 
-                                 capture_output=True, 
-                                 text=True)
-            if result.returncode == 0:
-                logger.info("✓ Backend tests passed")
-            else:
-                self.errors.append("Backend tests failed")
-                logger.error(result.stdout)
-        except Exception as e:
-            self.errors.append(f"Failed to run backend tests: {str(e)}")
-
-    def generate_report(self):
-        """יצירת דוח בדיקה"""
         logger.info("Generating debug report...")
-        report = {
-            'errors': self.errors,
-            'warnings': self.warnings,
-            'status': 'FAIL' if self.errors else 'WARNING' if self.warnings else 'PASS'
-        }
-        
-        with open('debug_report.txt', 'w') as f:
-            f.write("=== Debug Report ===\n\n")
-            f.write(f"Status: {report['status']}\n\n")
-            
-            if report['errors']:
-                f.write("Errors:\n")
-                for error in report['errors']:
-                    f.write(f"- {error}\n")
-            
-            if report['warnings']:
-                f.write("\nWarnings:\n")
-                for warning in report['warnings']:
-                    f.write(f"- {warning}\n")
-
-        return report
-
-    def run_all_checks(self):
-        """הרצת כל הבדיקות"""
-        self.check_python_dependencies()
-        self.check_node_dependencies()
-        self.check_file_structure()
-        self.check_env_variables()
-        self.run_backend_tests()
-        self.check_database_connection()
-        return self.generate_report()
+        return 0
+    except Exception as e:
+        logger.error(f"Debug failed: {str(e)}")
+        return 1
 
 if __name__ == "__main__":
-    debugger = SystemDebugger()
-    report = debugger.run_all_checks()
-    print(f"\nDebug completed with status: {report['status']}")
+    sys.exit(main())

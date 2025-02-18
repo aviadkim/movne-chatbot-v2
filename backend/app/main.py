@@ -1,26 +1,25 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.core.config import settings
-from app.services.chat_service import AdvancedChatService
-import logging
+from .api.v1 import chat
+from .core.config import settings
 
-app = FastAPI(title=settings.PROJECT_NAME)
+app = FastAPI(
+    title=settings.PROJECT_NAME,
+    version=settings.VERSION
+)
 
-# CORS
+# CORS middleware configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # In production, replace with specific origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-@app.get("/health")
-async def health_check():
-    return {"status": "healthy"}
+# Include routers
+app.include_router(chat.router, prefix=settings.API_V1_STR)
 
-@app.post("/api/chat")
-async def chat(message: str, language: str = "he"):
-    chat_service = AdvancedChatService()
-    response = await chat_service.process_message(message, language)
-    return {"response": response}
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}

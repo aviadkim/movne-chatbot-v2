@@ -1,17 +1,38 @@
 # Python
 __pycache__/
 *.py[cod]
-venv/
-.env
-
-# Node
-node_modules/
+*$py.class
+*.so
+.Python
+env/
 build/
-.env.local
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
 
 # IDE
-.vscode/
 .idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+.env
 
 # Data
 data/knowledge_base/*

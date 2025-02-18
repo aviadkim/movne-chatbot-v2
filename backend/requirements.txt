@@ -9,3 +9,4 @@ alembic>=1.7.3
 chromadb>=0.4.15
 sentence-transformers>=2.2.2
 pytest>=7.0.0
+httpx>=0.24.0

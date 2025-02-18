@@ -345,3 +345,180 @@ FAILED tests/test_chat.py::test_chat_hebrew - assert 422 == 200
 
 2025-02-18 06:35:31,281 - INFO - Checking database connection...
 2025-02-18 06:35:31,459 - INFO - Generating debug report...
+2025-02-18 06:36:25,967 - INFO - Checking Python dependencies...
+2025-02-18 06:36:25,982 - INFO - ✓ fastapi>=0.68.0 installed correctly
+2025-02-18 06:36:25,985 - INFO - ✓ uvicorn>=0.15.0 installed correctly
+2025-02-18 06:36:25,986 - INFO - ✓ pydantic>=1.8.0 installed correctly
+2025-02-18 06:36:25,988 - INFO - ✓ pydantic-settings>=2.0.0 installed correctly
+2025-02-18 06:36:25,989 - INFO - ✓ python-dotenv>=0.19.0 installed correctly
+2025-02-18 06:36:26,001 - INFO - ✓ sqlalchemy>=1.4.23 installed correctly
+2025-02-18 06:36:26,002 - INFO - ✓ psycopg2-binary>=2.9.1 installed correctly
+2025-02-18 06:36:26,005 - INFO - ✓ alembic>=1.7.3 installed correctly
+2025-02-18 06:36:26,115 - INFO - ✓ chromadb>=0.4.15 installed correctly
+2025-02-18 06:36:26,318 - INFO - ✓ sentence-transformers>=2.2.2 installed correctly
+2025-02-18 06:36:26,321 - INFO - ✓ pytest>=7.0.0 installed correctly
+2025-02-18 06:36:26,322 - INFO - Checking Node.js dependencies...
+2025-02-18 06:36:27,119 - INFO - Checking file structure...
+2025-02-18 06:36:27,119 - INFO - ✓ Found backend/app/main.py
+2025-02-18 06:36:27,119 - INFO - ✓ Found backend/app/core/config.py
+2025-02-18 06:36:27,119 - INFO - ✓ Found backend/requirements.txt
+2025-02-18 06:36:27,119 - INFO - ✓ Found frontend/src/App.jsx
+2025-02-18 06:36:27,120 - INFO - ✓ Found frontend/src/index.js
+2025-02-18 06:36:27,120 - INFO - ✓ Found frontend/package.json
+2025-02-18 06:36:27,120 - INFO - ✓ Found .env.example
+2025-02-18 06:36:27,120 - INFO - ✓ Found docker-compose.yml
+2025-02-18 06:36:27,120 - INFO - Checking environment variables...
+2025-02-18 06:36:27,120 - INFO - Running backend tests...
+2025-02-18 06:36:27,980 - INFO - ✓ Backend tests passed
+2025-02-18 06:36:27,980 - INFO - Checking database connection...
+2025-02-18 06:36:28,193 - INFO - Generating debug report...
+2025-02-18 06:39:51,952 - INFO - Checking Python dependencies...
+2025-02-18 06:39:51,967 - INFO - ✓ fastapi>=0.68.0 installed correctly
+2025-02-18 06:39:51,970 - INFO - ✓ uvicorn>=0.15.0 installed correctly
+2025-02-18 06:39:51,970 - INFO - ✓ pydantic>=1.8.0 installed correctly
+2025-02-18 06:39:51,974 - INFO - ✓ pydantic-settings>=2.0.0 installed correctly
+2025-02-18 06:39:51,975 - INFO - ✓ python-dotenv>=0.19.0 installed correctly
+2025-02-18 06:39:51,987 - INFO - ✓ sqlalchemy>=1.4.23 installed correctly
+2025-02-18 06:39:51,988 - INFO - ✓ psycopg2-binary>=2.9.1 installed correctly
+2025-02-18 06:39:51,991 - INFO - ✓ alembic>=1.7.3 installed correctly
+2025-02-18 06:39:52,100 - INFO - ✓ chromadb>=0.4.15 installed correctly
+2025-02-18 06:39:52,307 - INFO - ✓ sentence-transformers>=2.2.2 installed correctly
+2025-02-18 06:39:52,310 - INFO - ✓ pytest>=7.0.0 installed correctly
+2025-02-18 06:39:52,310 - INFO - Checking Node.js dependencies...
+2025-02-18 06:39:53,114 - INFO - Checking file structure...
+2025-02-18 06:39:53,115 - INFO - ✓ Found backend/app/main.py
+2025-02-18 06:39:53,115 - INFO - ✓ Found backend/app/core/config.py
+2025-02-18 06:39:53,116 - INFO - ✓ Found backend/requirements.txt
+2025-02-18 06:39:53,116 - INFO - ✓ Found frontend/src/App.jsx
+2025-02-18 06:39:53,116 - INFO - ✓ Found frontend/src/index.js
+2025-02-18 06:39:53,116 - INFO - ✓ Found frontend/package.json
+2025-02-18 06:39:53,117 - INFO - ✓ Found .env.example
+2025-02-18 06:39:53,117 - INFO - ✓ Found docker-compose.yml
+2025-02-18 06:39:53,117 - INFO - Checking environment variables...
+2025-02-18 06:39:53,117 - INFO - Running backend tests...
+2025-02-18 06:39:53,918 - INFO - ✓ Backend tests passed
+2025-02-18 06:39:53,918 - INFO - Checking database connection...
+2025-02-18 06:39:54,135 - INFO - Generating debug report...
+2025-02-18 12:48:07,599 - INFO - Checking Python dependencies...
+2025-02-18 12:48:07,626 - INFO - ✓ fastapi>=0.68.0 installed correctly
+2025-02-18 12:48:07,632 - INFO - ✓ uvicorn>=0.15.0 installed correctly
+2025-02-18 12:48:07,632 - INFO - ✓ pydantic>=1.8.0 installed correctly
+2025-02-18 12:48:07,637 - INFO - ✓ pydantic-settings>=2.0.0 installed correctly
+2025-02-18 12:48:07,637 - INFO - ✓ python-dotenv>=0.19.0 installed correctly
+2025-02-18 12:48:07,652 - INFO - ✓ sqlalchemy>=1.4.23 installed correctly
+2025-02-18 12:48:07,654 - INFO - ✓ psycopg2-binary>=2.9.1 installed correctly
+2025-02-18 12:48:07,660 - INFO - ✓ alembic>=1.7.3 installed correctly
+2025-02-18 12:48:07,842 - INFO - ✓ chromadb>=0.4.15 installed correctly
+2025-02-18 12:48:08,069 - INFO - ✓ sentence-transformers>=2.2.2 installed correctly
+2025-02-18 12:48:08,076 - INFO - ✓ pytest>=7.0.0 installed correctly
+2025-02-18 12:48:08,076 - INFO - Checking Node.js dependencies...
+2025-02-18 12:48:09,320 - INFO - Checking file structure...
+2025-02-18 12:48:09,320 - INFO - ✓ Found backend/app/main.py
+2025-02-18 12:48:09,321 - INFO - ✓ Found backend/app/core/config.py
+2025-02-18 12:48:09,321 - INFO - ✓ Found backend/requirements.txt
+2025-02-18 12:48:09,321 - INFO - ✓ Found frontend/src/App.jsx
+2025-02-18 12:48:09,321 - INFO - ✓ Found frontend/src/index.js
+2025-02-18 12:48:09,321 - INFO - ✓ Found frontend/package.json
+2025-02-18 12:48:09,321 - INFO - ✓ Found .env.example
+2025-02-18 12:48:09,321 - INFO - ✓ Found docker-compose.yml
+2025-02-18 12:48:09,322 - INFO - Checking environment variables...
+2025-02-18 12:48:09,322 - INFO - Running backend tests...
+2025-02-18 12:48:10,569 - ERROR - ============================= test session starts ==============================
+platform linux -- Python 3.12.1, pytest-8.3.4, pluggy-1.5.0
+rootdir: /workspaces/movne-chatbot-v2/backend
+plugins: anyio-4.7.0, asyncio-0.25.3
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None
+collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_____________________ ERROR collecting tests/test_chat.py ______________________
+tests/test_chat.py:8: in <module>
+    from app.main import app
+app/main.py:3: in <module>
+    from .core.config import settings
+app/core/config.py:19: in <module>
+    settings = Settings()
+/home/codespace/.python/current/lib/python3.12/site-packages/pydantic_settings/main.py:171: in __init__
+    super().__init__(
+E   pydantic_core._pydantic_core.ValidationError: 5 validation errors for Settings
+E   OPENAI_API_KEY
+E     Extra inputs are not permitted [type=extra_forbidden, input_value='your-key-here', input_type=str]
+E       For further information visit https://errors.pydantic.dev/2.10/v/extra_forbidden
+E   POSTGRES_USER
+E     Extra inputs are not permitted [type=extra_forbidden, input_value='postgres', input_type=str]
+E       For further information visit https://errors.pydantic.dev/2.10/v/extra_forbidden
+E   POSTGRES_PASSWORD
+E     Extra inputs are not permitted [type=extra_forbidden, input_value='password', input_type=str]
+E       For further information visit https://errors.pydantic.dev/2.10/v/extra_forbidden
+E   POSTGRES_DB
+E     Extra inputs are not permitted [type=extra_forbidden, input_value='movne_chatbot_v2', input_type=str]
+E       For further information visit https://errors.pydantic.dev/2.10/v/extra_forbidden
+E   SECRET_KEY
+E     Extra inputs are not permitted [type=extra_forbidden, input_value='super-secret-key-for-development', input_type=str]
+E       For further information visit https://errors.pydantic.dev/2.10/v/extra_forbidden
+=============================== warnings summary ===============================
+../../../home/codespace/.python/current/lib/python3.12/site-packages/pydantic/_internal/_config.py:295
+  /home/codespace/.python/current/lib/python3.12/site-packages/pydantic/_internal/_config.py:295: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.10/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+ERROR tests/test_chat.py - pydantic_core._pydantic_core.ValidationError: 5 va...
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+========================= 1 warning, 1 error in 0.72s ==========================
+
+2025-02-18 12:48:10,570 - INFO - Checking database connection...
+2025-02-18 12:48:11,121 - INFO - Generating debug report...
+2025-02-18 13:05:31,057 - INFO - Checking Python dependencies...
+2025-02-18 13:05:31,088 - INFO - ✓ fastapi>=0.68.0 installed correctly
+2025-02-18 13:05:31,095 - INFO - ✓ uvicorn>=0.15.0 installed correctly
+2025-02-18 13:05:31,096 - INFO - ✓ pydantic>=1.8.0 installed correctly
+2025-02-18 13:05:31,101 - INFO - ✓ pydantic-settings>=2.0.0 installed correctly
+2025-02-18 13:05:31,101 - INFO - ✓ python-dotenv>=0.19.0 installed correctly
+2025-02-18 13:05:31,116 - INFO - ✓ sqlalchemy>=1.4.23 installed correctly
+2025-02-18 13:05:31,118 - INFO - ✓ psycopg2-binary>=2.9.1 installed correctly
+2025-02-18 13:05:31,124 - INFO - ✓ alembic>=1.7.3 installed correctly
+2025-02-18 13:05:31,304 - INFO - ✓ chromadb>=0.4.15 installed correctly
+2025-02-18 13:05:31,527 - INFO - ✓ sentence-transformers>=2.2.2 installed correctly
+2025-02-18 13:05:31,533 - INFO - ✓ pytest>=7.0.0 installed correctly
+2025-02-18 13:05:31,535 - INFO - ✓ httpx>=0.25.0 installed correctly
+2025-02-18 13:05:31,535 - INFO - Checking Node.js dependencies...
+2025-02-18 13:05:33,370 - INFO - Checking file structure...
+2025-02-18 13:05:33,371 - INFO - ✓ Found backend/app/main.py
+2025-02-18 13:05:33,371 - INFO - ✓ Found backend/app/core/config.py
+2025-02-18 13:05:33,371 - INFO - ✓ Found backend/requirements.txt
+2025-02-18 13:05:33,371 - INFO - ✓ Found frontend/src/App.jsx
+2025-02-18 13:05:33,371 - INFO - ✓ Found frontend/src/index.js
+2025-02-18 13:05:33,371 - INFO - ✓ Found frontend/package.json
+2025-02-18 13:05:33,371 - INFO - ✓ Found .env.example
+2025-02-18 13:05:33,371 - INFO - ✓ Found docker-compose.yml
+2025-02-18 13:05:33,371 - INFO - Checking environment variables...
+2025-02-18 13:05:33,371 - INFO - Running backend tests...
+2025-02-18 13:05:34,644 - ERROR - ============================= test session starts ==============================
+platform linux -- Python 3.12.1, pytest-8.3.4, pluggy-1.5.0
+rootdir: /workspaces/movne-chatbot-v2/backend
+plugins: anyio-4.7.0, asyncio-0.25.3
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None
+collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_____________________ ERROR collecting tests/test_chat.py ______________________
+tests/test_chat.py:8: in <module>
+    from app.main import app
+app/main.py:3: in <module>
+    from .core.config import settings
+app/core/config.py:36: in <module>
+    settings = Settings()
+/home/codespace/.python/current/lib/python3.12/site-packages/pydantic_settings/main.py:171: in __init__
+    super().__init__(
+E   pydantic_core._pydantic_core.ValidationError: 1 validation error for Settings
+E   OPENAI_API_KEY
+E     Extra inputs are not permitted [type=extra_forbidden, input_value='your-key-here', input_type=str]
+E       For further information visit https://errors.pydantic.dev/2.10/v/extra_forbidden
+=========================== short test summary info ============================
+ERROR tests/test_chat.py - pydantic_core._pydantic_core.ValidationError: 1 va...
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.81s ===============================
+
+2025-02-18 13:05:34,644 - INFO - Checking database connection...
+2025-02-18 13:05:35,320 - INFO - Generating debug report...
