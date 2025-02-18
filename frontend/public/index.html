@@ -1,15 +1,145 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Movne Global AI Chatbot" />
-    <title>Movne Global - צ'אטבוט חכם</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-  </body>
+<html dir="rtl">
+<head>
+    <title>Movne Bot</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        #chat-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        #chat {
+            height: 400px;
+            overflow-y: scroll;
+            border: 1px solid #eee;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .input-container {
+            display: flex;
+            gap: 10px;
+        }
+        #input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #0066ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .user-message {
+            background-color: #e3f2fd;
+            margin-left: 20%;
+            text-align: right;
+        }
+        .bot-message {
+            background-color: #f5f5f5;
+            margin-right: 20%;
+        }
+        #status {
+            color: green;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="status">מתחבר לשרת...</div>
+    <div id="chat-container">
+        <h1>צ'אט עם Movne Bot</h1>
+        <div id="chat"></div>
+        <div class="input-container">
+            <input type="text" id="input" placeholder="הקלד הודעה כאן..." dir="rtl">
+            <button onclick="sendMessage()">שלח</button>
+        </div>
+    </div>
+
+    <script>
+        // בדיקת חיבור לשרת בהתחלה
+        fetch('http://localhost:8088/health')
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'healthy') {
+                    document.getElementById('status').textContent = 'מחובר לשרת ✓';
+                }
+            })
+            .catch(error => {
+                document.getElementById('status').textContent = 'שגיאה בחיבור לשרת ✗';
+                document.getElementById('status').style.color = 'red';
+            });
+
+        async function sendMessage() {
+            const input = document.getElementById('input');
+            const chat = document.getElementById('chat');
+            const message = input.value;
+            
+            if (!message.trim()) return;
+            
+            // הוספת הודעת המשתמש
+            chat.innerHTML += `
+                <div class="message user-message">
+                    <b>אתה:</b> ${message}
+                </div>
+            `;
+            input.value = '';
+            
+            try {
+                const response = await fetch('http://localhost:8088/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        message, 
+                        language: 'he' 
+                    })
+                });
+                
+                const data = await response.json();
+                chat.innerHTML += `
+                    <div class="message bot-message">
+                        <b>בוט:</b> ${data.response}
+                    </div>
+                `;
+            } catch (error) {
+                chat.innerHTML += `
+                    <div class="message bot-message" style="color: red;">
+                        <b>שגיאה:</b> לא ניתן להתחבר לשרת
+                    </div>
+                `;
+            }
+            
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        // שליחת הודעה עם Enter
+        document.getElementById('input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
 </html>
