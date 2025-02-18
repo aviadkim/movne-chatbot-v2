@@ -15,16 +15,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Chat service instance
-chat_service = AdvancedChatService()
-
-
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
 
-
 @app.post("/api/chat")
 async def chat(message: str, language: str = "he"):
+    chat_service = AdvancedChatService()
     response = await chat_service.process_message(message, language)
     return {"response": response}
