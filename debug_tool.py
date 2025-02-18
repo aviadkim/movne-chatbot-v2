@@ -97,6 +97,18 @@ class SystemDebugger:
             if not os.getenv(var):
                 self.warnings.append(f"Missing environment variable: {var}")
 
+    def check_database_connection(self):
+        """בדיקת חיבור למסד הנתונים"""
+        logger.info("Checking database connection...")
+        try:
+            from backend.app.db.session import test_connection
+            if test_connection():
+                logger.info("✓ Database connection successful")
+            else:
+                self.errors.append("Database connection failed")
+        except Exception as e:
+            self.errors.append(f"Database connection error: {str(e)}")
+
     def run_backend_tests(self):
         """הרצת בדיקות Backend"""
         logger.info("Running backend tests...")
@@ -105,24 +117,13 @@ class SystemDebugger:
                                  cwd=self.backend_dir, 
                                  capture_output=True, 
                                  text=True)
-            if result.returncode != 0:
+            if result.returncode == 0:
+                logger.info("✓ Backend tests passed")
+            else:
                 self.errors.append("Backend tests failed")
                 logger.error(result.stdout)
-            else:
-                logger.info("✓ Backend tests passed")
         except Exception as e:
             self.errors.append(f"Failed to run backend tests: {str(e)}")
-
-    def check_database_connection(self):
-        """בדיקת חיבור למסד הנתונים"""
-        logger.info("Checking database connection...")
-        try:
-            from backend.app.db.session import SessionLocal
-            db = SessionLocal()
-            db.execute("SELECT 1")
-            logger.info("✓ Database connection successful")
-        except Exception as e:
-            self.errors.append(f"Database connection failed: {str(e)}")
 
     def generate_report(self):
         """יצירת דוח בדיקה"""
