@@ -1,0 +1,90 @@
+2025-02-18 06:29:31,674 - INFO - Checking Python dependencies...
+2025-02-18 06:29:31,691 - INFO - ✓ fastapi>=0.68.0 installed correctly
+2025-02-18 06:29:31,695 - INFO - ✓ uvicorn>=0.15.0 installed correctly
+2025-02-18 06:29:31,696 - INFO - ✓ pydantic>=1.8.0 installed correctly
+2025-02-18 06:29:31,697 - INFO - ✓ python-dotenv>=0.19.0 installed correctly
+2025-02-18 06:29:31,710 - INFO - ✓ sqlalchemy>=1.4.23 installed correctly
+2025-02-18 06:29:31,711 - INFO - ✓ psycopg2-binary>=2.9.1 installed correctly
+2025-02-18 06:29:31,713 - INFO - ✓ alembic>=1.7.3 installed correctly
+2025-02-18 06:29:31,845 - INFO - ✓ chromadb>=0.4.15 installed correctly
+2025-02-18 06:29:32,043 - INFO - ✓ sentence-transformers>=2.2.2 installed correctly
+2025-02-18 06:29:32,044 - INFO - Checking Node.js dependencies...
+2025-02-18 06:29:32,906 - INFO - Checking file structure...
+2025-02-18 06:29:32,906 - INFO - ✓ Found backend/app/main.py
+2025-02-18 06:29:32,906 - INFO - ✓ Found backend/app/core/config.py
+2025-02-18 06:29:32,907 - INFO - ✓ Found backend/requirements.txt
+2025-02-18 06:29:32,907 - INFO - ✓ Found frontend/src/App.jsx
+2025-02-18 06:29:32,908 - INFO - ✓ Found frontend/src/index.js
+2025-02-18 06:29:32,908 - INFO - ✓ Found frontend/package.json
+2025-02-18 06:29:32,909 - INFO - ✓ Found .env.example
+2025-02-18 06:29:32,909 - INFO - ✓ Found docker-compose.yml
+2025-02-18 06:29:32,910 - INFO - Checking environment variables...
+2025-02-18 06:29:32,910 - INFO - Running backend tests...
+2025-02-18 06:29:34,033 - ERROR - ============================= test session starts ==============================
+platform linux -- Python 3.12.1, pytest-8.3.4, pluggy-1.5.0
+rootdir: /workspaces/movne-chatbot-v2/backend
+plugins: anyio-4.7.0
+collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_____________________ ERROR collecting tests/test_chat.py ______________________
+ImportError while importing test module '/workspaces/movne-chatbot-v2/backend/tests/test_chat.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/python/3.12.1/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_chat.py:3: in <module>
+    from app.main import app
+E   ModuleNotFoundError: No module named 'app'
+=========================== short test summary info ============================
+ERROR tests/test_chat.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.62s ===============================
+
+2025-02-18 06:29:34,033 - INFO - Checking database connection...
+2025-02-18 06:29:34,315 - INFO - Generating debug report...
+2025-02-18 06:29:37,916 - INFO - Checking Python dependencies...
+2025-02-18 06:29:37,931 - INFO - ✓ fastapi>=0.68.0 installed correctly
+2025-02-18 06:29:37,934 - INFO - ✓ uvicorn>=0.15.0 installed correctly
+2025-02-18 06:29:37,935 - INFO - ✓ pydantic>=1.8.0 installed correctly
+2025-02-18 06:29:37,936 - INFO - ✓ python-dotenv>=0.19.0 installed correctly
+2025-02-18 06:29:37,949 - INFO - ✓ sqlalchemy>=1.4.23 installed correctly
+2025-02-18 06:29:37,949 - INFO - ✓ psycopg2-binary>=2.9.1 installed correctly
+2025-02-18 06:29:37,953 - INFO - ✓ alembic>=1.7.3 installed correctly
+2025-02-18 06:29:38,066 - INFO - ✓ chromadb>=0.4.15 installed correctly
+2025-02-18 06:29:38,263 - INFO - ✓ sentence-transformers>=2.2.2 installed correctly
+2025-02-18 06:29:38,264 - INFO - Checking Node.js dependencies...
+2025-02-18 06:29:39,022 - INFO - Checking file structure...
+2025-02-18 06:29:39,023 - INFO - ✓ Found backend/app/main.py
+2025-02-18 06:29:39,024 - INFO - ✓ Found backend/app/core/config.py
+2025-02-18 06:29:39,024 - INFO - ✓ Found backend/requirements.txt
+2025-02-18 06:29:39,024 - INFO - ✓ Found frontend/src/App.jsx
+2025-02-18 06:29:39,024 - INFO - ✓ Found frontend/src/index.js
+2025-02-18 06:29:39,025 - INFO - ✓ Found frontend/package.json
+2025-02-18 06:29:39,025 - INFO - ✓ Found .env.example
+2025-02-18 06:29:39,025 - INFO - ✓ Found docker-compose.yml
+2025-02-18 06:29:39,025 - INFO - Checking environment variables...
+2025-02-18 06:29:39,025 - INFO - Running backend tests...
+2025-02-18 06:29:39,835 - ERROR - ============================= test session starts ==============================
+platform linux -- Python 3.12.1, pytest-8.3.4, pluggy-1.5.0
+rootdir: /workspaces/movne-chatbot-v2/backend
+plugins: anyio-4.7.0
+collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_____________________ ERROR collecting tests/test_chat.py ______________________
+ImportError while importing test module '/workspaces/movne-chatbot-v2/backend/tests/test_chat.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/python/3.12.1/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_chat.py:3: in <module>
+    from app.main import app
+E   ModuleNotFoundError: No module named 'app'
+=========================== short test summary info ============================
+ERROR tests/test_chat.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.55s ===============================
+
+2025-02-18 06:29:39,835 - INFO - Checking database connection...
+2025-02-18 06:29:40,021 - INFO - Generating debug report...

@@ -5,6 +5,7 @@ from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
+
 class AdvancedChatService:
     def __init__(self):
         self.initialize_models()
@@ -16,10 +17,7 @@ class AdvancedChatService:
         pass
 
     async def process_message(
-        self,
-        message: str,
-        language: str = "he",
-        client_id: Optional[str] = None
+        self, message: str, language: str = "he", client_id: Optional[str] = None
     ) -> str:
         try:
             # Basic response for now

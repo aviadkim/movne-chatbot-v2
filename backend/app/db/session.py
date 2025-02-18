@@ -18,13 +18,14 @@ try:
         SQLALCHEMY_DATABASE_URL,
         pool_pre_ping=True,  # בדיקת חיבור לפני כל שימוש
         pool_size=5,  # גודל מאגר החיבורים
-        max_overflow=10  # מספר חיבורים נוספים מעבר למאגר
+        max_overflow=10,  # מספר חיבורים נוספים מעבר למאגר
     )
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     logger.info("Database connection established successfully")
 except Exception as e:
     logger.error(f"Failed to establish database connection: {str(e)}")
     raise
+
 
 def get_db():
     """פונקציית עזר להשגת חיבור למסד הנתונים"""
@@ -34,9 +35,11 @@ def get_db():
     finally:
         db.close()
 
+
 def init_db():
     """אתחול מסד הנתונים"""
     from app.models.db_models import Base
+
     try:
         Base.metadata.create_all(bind=engine)
         logger.info("Database tables created successfully")

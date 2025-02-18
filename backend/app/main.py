@@ -18,9 +18,11 @@ app.add_middleware(
 # Chat service instance
 chat_service = AdvancedChatService()
 
+
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
+
 
 @app.post("/api/chat")
 async def chat(message: str, language: str = "he"):

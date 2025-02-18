@@ -3,9 +3,10 @@ from sqlalchemy.orm import relationship
 from app.db.base import Base
 from datetime import datetime
 
+
 class Client(Base):
     __tablename__ = "clients"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     client_id = Column(String, unique=True, index=True)
     preferred_language = Column(String(2), default="he")
@@ -14,13 +15,12 @@ class Client(Base):
     metadata = Column(JSON)
     conversations = relationship("Conversation", back_populates="client")
 
-    __table_args__ = (
-        Index('idx_client_last_active', last_active),
-    )
+    __table_args__ = (Index("idx_client_last_active", last_active),)
+
 
 class Conversation(Base):
     __tablename__ = "conversations"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     client_id = Column(String, ForeignKey("clients.client_id"))
     started_at = Column(DateTime, default=datetime.utcnow)
@@ -29,28 +29,28 @@ class Conversation(Base):
     messages = relationship("Message", back_populates="conversation")
     client = relationship("Client", back_populates="conversations")
 
-    __table_args__ = (
-        Index('idx_conversation_client', client_id, started_at),
-    )
+    __table_args__ = (Index("idx_conversation_client", client_id, started_at),)
+
 
 class Message(Base):
     __tablename__ = "messages"
-    
+
     id = Column(Integer, primary_key=True, index=True)
-    conversation_id = Column(Integer, ForeignKey("conversations.id", ondelete="CASCADE"))
+    conversation_id = Column(
+        Integer, ForeignKey("conversations.id", ondelete="CASCADE")
+    )
     role = Column(String)  # 'user' או 'assistant'
     content = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
     metadata = Column(JSON, nullable=True)  # שדה לנתוני ניתוח נוספים
     conversation = relationship("Conversation", back_populates="messages")
 
-    __table_args__ = (
-        Index('idx_message_conversation', conversation_id, created_at),
-    )
+    __table_args__ = (Index("idx_message_conversation", conversation_id, created_at),)
+
 
 class KnowledgeBase(Base):
     __tablename__ = "knowledge_base"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     title_he = Column(String)
     title_en = Column(String)
@@ -67,5 +67,5 @@ class KnowledgeBase(Base):
             "title": self.title_he if language == "he" else self.title_en,
             "content": self.content_he if language == "he" else self.content_en,
             "category": self.category,
-            "updated_at": self.updated_at.isoformat()
+            "updated_at": self.updated_at.isoformat(),
         }
