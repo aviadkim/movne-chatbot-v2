@@ -1,11 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.core.config import settings
-from app.api.v1 import chat
+from pydantic import BaseModel
 
-app = FastAPI(title=settings.PROJECT_NAME)
+app = FastAPI(title="Movne Chatbot V2")
 
-# CORS
+# CORS configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -14,9 +13,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include routers
-app.include_router(chat.router, prefix=settings.API_V1_STR, tags=["chat"])
+class ChatRequest(BaseModel):
+    message: str
+    language: str = "he"
 
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
+
+@app.post("/api/chat")
+async def chat(request: ChatRequest):
+    # Simple response for testing
+    return {
+        "response": f"Echo: {request.message} (in {request.language})"
+    }

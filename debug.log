@@ -616,3 +616,36 @@ ERROR tests/test_chat.py - pydantic_core._pydantic_core.ValidationError: 1 va...
 2025-02-18 15:00:42,853 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
 2025-02-18 15:00:42,853 - INFO - ✓ faiss installed correctly
 2025-02-18 15:00:44,153 - ERROR - Project check failed!
+2025-02-18 15:15:54,481 - INFO - Starting project checks...
+2025-02-18 15:15:54,920 - INFO - ✓ fastapi installed correctly
+2025-02-18 15:15:54,947 - INFO - ✓ uvicorn installed correctly
+2025-02-18 15:15:54,948 - INFO - ✓ pydantic installed correctly
+2025-02-18 15:15:55,058 - INFO - ✓ sqlalchemy installed correctly
+2025-02-18 15:15:56,684 - INFO - ✓ transformers installed correctly
+2025-02-18 15:15:56,684 - INFO - ✓ torch installed correctly
+2025-02-18 15:15:56,747 - INFO - Loading faiss with AVX512 support.
+2025-02-18 15:15:56,764 - INFO - Successfully loaded faiss with AVX512 support.
+2025-02-18 15:15:56,767 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+2025-02-18 15:15:57,702 - ERROR - Project check failed!
+2025-02-18 15:23:11,027 - INFO - Starting project checks...
+2025-02-18 15:23:11,428 - INFO - ✓ fastapi installed correctly
+2025-02-18 15:23:11,449 - INFO - ✓ uvicorn installed correctly
+2025-02-18 15:23:11,449 - INFO - ✓ pydantic installed correctly
+2025-02-18 15:23:11,547 - INFO - ✓ sqlalchemy installed correctly
+2025-02-18 15:23:13,051 - INFO - ✓ transformers installed correctly
+2025-02-18 15:23:13,052 - INFO - ✓ torch installed correctly
+2025-02-18 15:23:13,069 - ERROR - Project check failed!
+2025-02-18 15:24:54,058 - INFO - Starting project checks...
+2025-02-18 15:24:54,494 - INFO - ✓ fastapi installed correctly
+2025-02-18 15:24:54,517 - INFO - ✓ uvicorn installed correctly
+2025-02-18 15:24:54,518 - INFO - ✓ pydantic installed correctly
+2025-02-18 15:24:54,616 - INFO - ✓ sqlalchemy installed correctly
+2025-02-18 15:24:56,298 - INFO - ✓ transformers installed correctly
+2025-02-18 15:24:56,299 - INFO - ✓ torch installed correctly
+2025-02-18 15:25:39,207 - INFO - Starting project checks...
+2025-02-18 15:25:39,608 - INFO - ✓ fastapi installed correctly
+2025-02-18 15:25:39,631 - INFO - ✓ uvicorn installed correctly
+2025-02-18 15:25:39,631 - INFO - ✓ pydantic installed correctly
+2025-02-18 15:25:39,727 - INFO - ✓ sqlalchemy installed correctly
+2025-02-18 15:25:41,363 - INFO - ✓ transformers installed correctly
+2025-02-18 15:25:41,363 - INFO - ✓ torch installed correctly
