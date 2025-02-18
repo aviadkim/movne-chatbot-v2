@@ -1,38 +1,30 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings
 from pathlib import Path
-from typing import Optional
-
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "Movne Chatbot"
+    # Project settings
+    PROJECT_NAME: str = "Movne Global Chatbot"
     VERSION: str = "2.0.0"
     API_V1_STR: str = "/api/v1"
-
-    MODEL_PATH: Path = Path("models/hebrew-model")
-    KNOWLEDGE_BASE_PATH: Path = Path("data/knowledge_base")
-    DATABASE_URL: str = "postgresql://postgres:postgres@db:5432/movne"
     
-    # Ollama settings
-    OLLAMA_HOST: str = "http://ollama:11434"  # Updated to use Docker service name
-    OLLAMA_MODEL: str = "mistral"  # or another model that supports Hebrew/English
-
     # Database settings
-    POSTGRES_USER: str
-    POSTGRES_PASSWORD: str
-    POSTGRES_DB: str
-    POSTGRES_SERVER: str = "db"  # Added this line to match docker-compose service name
-    POSTGRES_PORT: int = 5432
-
+    POSTGRES_SERVER: str = "localhost"
+    POSTGRES_PORT: int = 5432  # הוספנו את זה
+    POSTGRES_USER: str = "postgres"
+    POSTGRES_PASSWORD: str = "postgres123"
+    POSTGRES_DB: str = "movne_chatbot_v2"
+    
+    # Model settings
+    MODEL_NAME: str = "mistralai/Mistral-7B-v0.1"
+    MODEL_PATH: Path = Path("models/mistral")
+    
+    # Knowledge Base
+    KNOWLEDGE_BASE_PATH: Path = Path("data/knowledge_base")
+    
     # Security
-    SECRET_KEY: str
-
-    # Optionally configure the settings class
-    model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        case_sensitive=True,
-        extra="allow"  # Moved the extra allow setting here
-    )
-
+    SECRET_KEY: str = "your-secret-key-here"
+    
+    class Config:
+        case_sensitive = True
 
 settings = Settings()
