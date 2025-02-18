@@ -7,6 +7,7 @@ from app.services.chat_service import AdvancedChatService
 from pydantic import BaseModel
 import logging
 from datetime import datetime
+import httpx
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -107,3 +108,32 @@ async def analyze_conversation(client_id: str, message: str, response: str):
         logger.info(f"Analyzing conversation for client {client_id}")
     except Exception as e:
         logger.error(f"Error analyzing conversation: {str(e)}")
+
+
+@router.post("/chat")
+async def chat(message: Dict[str, str], db: Session = Depends(get_db)):
+    try:
+        language = message.get("language", "en")
+        user_message = message.get("message", "")
+        
+        # Call Ollama API
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{settings.OLLAMA_HOST}/api/generate",
+                json={
+                    "model": settings.OLLAMA_MODEL,
+                    "prompt": user_message,
+                    "system": "You are a helpful assistant that speaks Hebrew and English."
+                }
+            )
+            
+            if response.status_code != 200:
+                raise HTTPException(status_code=500, detail="LLM service error")
+                
+            return {
+                "response": response.json()["response"],
+                "language": language
+            }
+            
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
