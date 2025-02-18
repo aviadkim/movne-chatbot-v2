@@ -522,3 +522,97 @@ ERROR tests/test_chat.py - pydantic_core._pydantic_core.ValidationError: 1 va...
 
 2025-02-18 13:05:34,644 - INFO - Checking database connection...
 2025-02-18 13:05:35,320 - INFO - Generating debug report...
+2025-02-18 14:26:14,108 - INFO - Starting project checks...
+2025-02-18 14:26:14,751 - INFO - ✓ fastapi installed correctly
+2025-02-18 14:26:14,812 - INFO - ✓ uvicorn installed correctly
+2025-02-18 14:26:14,812 - INFO - ✓ pydantic installed correctly
+2025-02-18 14:26:15,019 - INFO - ✓ sqlalchemy installed correctly
+2025-02-18 14:26:18,032 - INFO - ✓ transformers installed correctly
+2025-02-18 14:26:18,032 - INFO - ✓ torch installed correctly
+2025-02-18 14:29:45,395 - INFO - Starting project checks...
+2025-02-18 14:29:47,259 - INFO - ✓ fastapi installed correctly
+2025-02-18 14:29:47,322 - INFO - ✓ uvicorn installed correctly
+2025-02-18 14:29:47,322 - INFO - ✓ pydantic installed correctly
+2025-02-18 14:29:47,617 - INFO - ✓ sqlalchemy installed correctly
+2025-02-18 14:30:01,811 - INFO - ✓ transformers installed correctly
+2025-02-18 14:30:01,812 - INFO - ✓ torch installed correctly
+2025-02-18 14:30:07,549 - INFO - Loading faiss with AVX512 support.
+2025-02-18 14:30:07,617 - INFO - Successfully loaded faiss with AVX512 support.
+2025-02-18 14:30:07,626 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+2025-02-18 14:30:08,071 - ERROR - Project check failed!
+2025-02-18 14:34:37,965 - INFO - Starting project checks...
+2025-02-18 14:34:38,459 - INFO - ✓ fastapi installed correctly
+2025-02-18 14:34:38,488 - INFO - ✓ uvicorn installed correctly
+2025-02-18 14:34:38,488 - INFO - ✓ pydantic installed correctly
+2025-02-18 14:34:38,635 - INFO - ✓ sqlalchemy installed correctly
+2025-02-18 14:34:40,456 - INFO - ✓ transformers installed correctly
+2025-02-18 14:34:40,457 - INFO - ✓ torch installed correctly
+2025-02-18 14:34:40,533 - INFO - Loading faiss with AVX512 support.
+2025-02-18 14:34:40,549 - INFO - Successfully loaded faiss with AVX512 support.
+2025-02-18 14:34:40,552 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+2025-02-18 14:34:41,483 - INFO - ✓ Main service imports successful
+2025-02-18 14:34:41,484 - ERROR - Project check failed!
+2025-02-18 14:36:44,195 - INFO - Starting project checks...
+2025-02-18 14:36:44,586 - INFO - ✓ fastapi installed correctly
+2025-02-18 14:36:44,606 - INFO - ✓ uvicorn installed correctly
+2025-02-18 14:36:44,606 - INFO - ✓ pydantic installed correctly
+2025-02-18 14:36:44,701 - INFO - ✓ sqlalchemy installed correctly
+2025-02-18 14:36:46,308 - INFO - ✓ transformers installed correctly
+2025-02-18 14:36:46,308 - INFO - ✓ torch installed correctly
+2025-02-18 14:36:46,310 - INFO - Loading faiss with AVX512 support.
+2025-02-18 14:36:46,326 - INFO - Successfully loaded faiss with AVX512 support.
+2025-02-18 14:36:46,330 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+2025-02-18 14:36:46,330 - INFO - ✓ faiss installed correctly
+2025-02-18 14:36:47,612 - INFO - ✓ Main service imports successful
+2025-02-18 14:36:47,612 - INFO - Project check passed!
+2025-02-18 14:36:59,632 - INFO - Starting project checks...
+2025-02-18 14:37:00,037 - INFO - ✓ fastapi installed correctly
+2025-02-18 14:37:00,057 - INFO - ✓ uvicorn installed correctly
+2025-02-18 14:37:00,058 - INFO - ✓ pydantic installed correctly
+2025-02-18 14:37:00,154 - INFO - ✓ sqlalchemy installed correctly
+2025-02-18 14:37:01,598 - INFO - ✓ transformers installed correctly
+2025-02-18 14:37:01,598 - INFO - ✓ torch installed correctly
+2025-02-18 14:37:01,599 - INFO - Loading faiss with AVX512 support.
+2025-02-18 14:37:01,615 - INFO - Successfully loaded faiss with AVX512 support.
+2025-02-18 14:37:01,618 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+2025-02-18 14:37:01,618 - INFO - ✓ faiss installed correctly
+2025-02-18 14:37:02,569 - INFO - ✓ Main service imports successful
+2025-02-18 14:37:02,569 - INFO - Project check passed!
+2025-02-18 14:37:42,229 - INFO - Starting project checks...
+2025-02-18 14:37:42,619 - INFO - ✓ fastapi installed correctly
+2025-02-18 14:37:42,639 - INFO - ✓ uvicorn installed correctly
+2025-02-18 14:37:42,639 - INFO - ✓ pydantic installed correctly
+2025-02-18 14:37:42,735 - INFO - ✓ sqlalchemy installed correctly
+2025-02-18 14:37:44,141 - INFO - ✓ transformers installed correctly
+2025-02-18 14:37:44,141 - INFO - ✓ torch installed correctly
+2025-02-18 14:37:44,142 - INFO - Loading faiss with AVX512 support.
+2025-02-18 14:37:44,158 - INFO - Successfully loaded faiss with AVX512 support.
+2025-02-18 14:37:44,161 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+2025-02-18 14:37:44,161 - INFO - ✓ faiss installed correctly
+2025-02-18 14:37:45,108 - INFO - ✓ Main service imports successful
+2025-02-18 14:37:45,108 - INFO - Project check passed!
+2025-02-18 14:50:25,876 - INFO - Starting project checks...
+2025-02-18 14:50:26,317 - INFO - ✓ fastapi installed correctly
+2025-02-18 14:50:26,337 - INFO - ✓ uvicorn installed correctly
+2025-02-18 14:50:26,338 - INFO - ✓ pydantic installed correctly
+2025-02-18 14:50:26,439 - INFO - ✓ sqlalchemy installed correctly
+2025-02-18 14:50:27,909 - INFO - ✓ transformers installed correctly
+2025-02-18 14:50:27,909 - INFO - ✓ torch installed correctly
+2025-02-18 14:50:27,910 - INFO - Loading faiss with AVX512 support.
+2025-02-18 14:50:27,925 - INFO - Successfully loaded faiss with AVX512 support.
+2025-02-18 14:50:27,929 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+2025-02-18 14:50:27,929 - INFO - ✓ faiss installed correctly
+2025-02-18 14:50:29,060 - INFO - ✓ Main service imports successful
+2025-02-18 14:50:29,060 - INFO - Project check passed!
+2025-02-18 15:00:40,409 - INFO - Starting project checks...
+2025-02-18 15:00:40,910 - INFO - ✓ fastapi installed correctly
+2025-02-18 15:00:40,942 - INFO - ✓ uvicorn installed correctly
+2025-02-18 15:00:40,942 - INFO - ✓ pydantic installed correctly
+2025-02-18 15:00:41,137 - INFO - ✓ sqlalchemy installed correctly
+2025-02-18 15:00:42,823 - INFO - ✓ transformers installed correctly
+2025-02-18 15:00:42,823 - INFO - ✓ torch installed correctly
+2025-02-18 15:00:42,825 - INFO - Loading faiss with AVX512 support.
+2025-02-18 15:00:42,847 - INFO - Successfully loaded faiss with AVX512 support.
+2025-02-18 15:00:42,853 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+2025-02-18 15:00:42,853 - INFO - ✓ faiss installed correctly
+2025-02-18 15:00:44,153 - ERROR - Project check failed!
