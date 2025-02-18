@@ -1,20 +1,22 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from ...services.chat import ChatService
+from ....services.chat_service import ChatService
 
-router = APIRouter()
-chat_service = ChatService()
+router = APIRouter(prefix="/chat", tags=["chat"])
 
-class ChatMessage(BaseModel):
+class ChatRequest(BaseModel):
     message: str
+    language: str = "he"
 
 class ChatResponse(BaseModel):
     response: str
 
-@router.post("/chat", response_model=ChatResponse)
-async def chat(message: ChatMessage):
+chat_service = ChatService()
+
+@router.post("/", response_model=ChatResponse)
+async def process_chat(request: ChatRequest):
     try:
-        response = await chat_service.get_chat_response(message.message)
+        response = await chat_service.process_message(request.message, request.language)
         return ChatResponse(response=response)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
