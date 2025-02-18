@@ -649,3 +649,11 @@ ERROR tests/test_chat.py - pydantic_core._pydantic_core.ValidationError: 1 va...
 2025-02-18 15:25:39,727 - INFO - ✓ sqlalchemy installed correctly
 2025-02-18 15:25:41,363 - INFO - ✓ transformers installed correctly
 2025-02-18 15:25:41,363 - INFO - ✓ torch installed correctly
+2025-02-18 15:30:44,122 - INFO - Starting project checks...
+2025-02-18 15:30:44,546 - INFO - ✓ fastapi installed correctly
+2025-02-18 15:30:44,569 - INFO - ✓ uvicorn installed correctly
+2025-02-18 15:30:44,569 - INFO - ✓ pydantic installed correctly
+2025-02-18 15:30:44,667 - INFO - ✓ sqlalchemy installed correctly
+2025-02-18 15:30:46,199 - INFO - ✓ transformers installed correctly
+2025-02-18 15:30:46,199 - INFO - ✓ torch installed correctly
+2025-02-18 15:33:42,899 - INFO - Starting project checks...

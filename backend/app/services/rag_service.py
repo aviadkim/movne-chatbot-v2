@@ -1,83 +1,42 @@
-from typing import List, Optional
-import faiss
-import numpy as np
+from typing import List
+import chromadb
 from sentence_transformers import SentenceTransformer
 import logging
-import pickle
-from pathlib import Path
-from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
 class RAGService:
     def __init__(self):
-        self.model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-mpnet-base-v2')
-        self.index = None
-        self.documents = []
-        self.initialize_index()
+        self.client = chromadb.Client()
+        self.collection = self.client.get_or_create_collection(
+            name="documents",
+            metadata={"hnsw:space": "cosine"}
+        )
+        self.model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
         
-    def initialize_index(self):
+    def add_documents(self, texts: List[str], metadatas: List[dict] = None):
         try:
-            index_path = settings.KNOWLEDGE_BASE_PATH / "faiss_index.pkl"
-            docs_path = settings.KNOWLEDGE_BASE_PATH / "documents.pkl"
-            
-            if index_path.exists() and docs_path.exists():
-                with open(index_path, 'rb') as f:
-                    self.index = pickle.load(f)
-                with open(docs_path, 'rb') as f:
-                    self.documents = pickle.load(f)
-                logger.info("Loaded existing index and documents")
-            else:
-                dimension = self.model.get_sentence_embedding_dimension()
-                self.index = faiss.IndexFlatL2(dimension)
-                logger.info("Created new FAISS index")
-                
+            embeddings = self.model.encode(texts).tolist()
+            ids = [str(i) for i in range(len(texts))]
+            self.collection.add(
+                embeddings=embeddings,
+                documents=texts,
+                metadatas=metadatas or [{}] * len(texts),
+                ids=ids
+            )
+            logger.info(f"Added {len(texts)} documents to RAG system")
         except Exception as e:
-            logger.error(f"Error initializing FAISS index: {str(e)}")
+            logger.error(f"Error adding documents: {str(e)}")
             raise
 
-    async def get_relevant_docs(self, query: str, language: str, n_results: int = 3) -> List[str]:
+    def get_relevant_context(self, query: str, n_results: int = 3) -> List[str]:
         try:
-            if not self.index or self.index.ntotal == 0:
-                return []
-                
-            # Get query embedding
-            query_embedding = self.model.encode(query)
-            query_embedding = np.array([query_embedding]).astype('float32')
-            
-            # Search
-            D, I = self.index.search(query_embedding, n_results)
-            
-            # Get relevant documents
-            relevant_docs = [self.documents[i] for i in I[0] if i < len(self.documents)]
-            
-            return relevant_docs
-            
+            query_embedding = self.model.encode(query).tolist()
+            results = self.collection.query(
+                query_embeddings=[query_embedding],
+                n_results=n_results
+            )
+            return results["documents"][0]
         except Exception as e:
-            logger.error(f"Error retrieving relevant docs: {str(e)}")
+            logger.error(f"Error retrieving context: {str(e)}")
             return []
-
-    async def add_document(self, text: str, metadata: dict):
-        try:
-            # Get embedding
-            embedding = self.model.encode(text)
-            embedding = np.array([embedding]).astype('float32')
-            
-            # Add to index
-            self.index.add(embedding)
-            self.documents.append(text)
-            
-            # Save index and documents
-            index_path = settings.KNOWLEDGE_BASE_PATH / "faiss_index.pkl"
-            docs_path = settings.KNOWLEDGE_BASE_PATH / "documents.pkl"
-            
-            with open(index_path, 'wb') as f:
-                pickle.dump(self.index, f)
-            with open(docs_path, 'wb') as f:
-                pickle.dump(self.documents, f)
-                
-            logger.info("Document added and index saved successfully")
-            
-        except Exception as e:
-            logger.error(f"Error adding document: {str(e)}")
-            raise
