@@ -1,8 +1,13 @@
 # Build frontend
 FROM node:18-alpine as frontend
 WORKDIR /app/frontend
+
+# Install dependencies with legacy peer deps and clean npm cache
 COPY frontend/package*.json ./
-RUN npm install --legacy-peer-deps
+RUN npm cache clean --force && \
+    npm install --legacy-peer-deps --no-package-lock
+
+# Build frontend
 COPY frontend/ ./
 RUN npm run build
 
@@ -14,7 +19,7 @@ WORKDIR /app
 COPY --from=frontend /app/frontend/build /app/static
 
 # Install backend dependencies
-COPY requirements.txt .
+COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy backend code
