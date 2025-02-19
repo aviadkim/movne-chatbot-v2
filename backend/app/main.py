@@ -6,6 +6,8 @@ from pydantic import BaseModel
 from .models.chat_model import chat_model
 import logging
 
+logger = logging.getLogger(__name__)
+
 app = FastAPI()
 
 app.add_middleware(
@@ -16,11 +18,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/static", StaticFiles(directory="/app/static"), name="static")
+# Temporarily comment out static files for local development
+# app.mount("/static", StaticFiles(directory="/app/static"), name="static")
 
 class ChatRequest(BaseModel):
     message: str
     language: str = "he"
+    is_qualified: bool = False
 
 @app.get("/")
 def root():
@@ -30,10 +34,10 @@ def root():
 def health():
     return {"status": "healthy"}
 
-@app.post("/api/chat")
+@app.post("/api/v1/chat")
 async def chat(request: ChatRequest):
     try:
-        response = chat_model.generate_response(request.message, request.language)
+        response = chat_model.generate_response(request.message, request.language, request.is_qualified)
         return {"response": response}
     except Exception as e:
         logger.error(f"Error in chat endpoint: {str(e)}")
@@ -43,4 +47,5 @@ async def chat(request: ChatRequest):
 async def serve_frontend(full_path: str):
     if full_path.startswith("api/"):
         return {"error": "API endpoint not found"}
-    return FileResponse("/app/static/index.html")
+    # Temporarily return API error for all non-API routes during local development
+    return {"error": "Frontend not available in local development"}

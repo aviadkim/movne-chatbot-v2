@@ -1,61 +1,97 @@
-from transformers import AutoModelForCausalLM, AutoTokenizer
-import torch
 import logging
+import httpx
+from typing import List, Dict
+from ..core.config import settings
 
 logger = logging.getLogger(__name__)
 
 class MovneChat:
     def __init__(self):
         try:
-            model_name = "mistralai/Mistral-7B-Instruct-v0.2"
-            self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-            self.model = AutoModelForCausalLM.from_pretrained(
-                model_name,
-                torch_dtype=torch.float16,
-                device_map="auto",
-                load_in_8bit=True
-            )
-            logger.info("Mistral model loaded successfully")
+            self.ollama_host = settings.OLLAMA_HOST or "http://localhost:11434"
+            self.model_name = "mistral"  # Using Mistral for good multilingual support
+            
+            # Initialize conversation history
+            self.conversation_history: List[Dict[str, str]] = []
+            self.max_history_length = 5  # Keep last 5 exchanges
+            
+            # Test connection to Ollama
+            self._test_ollama_connection()
+            logger.info("Chat model initialized successfully with Ollama")
+            
         except Exception as e:
-            logger.error(f"Error loading model: {e}")
-            self.model = None
-            self.tokenizer = None
+            logger.error(f"Initialization error: {str(e)}")
+            raise
 
-    def generate_response(self, message: str, language: str = "he") -> str:
-        if not self.model or not self.tokenizer:
-            return "שירות הצ'אט זמני לא זמין. אנא נסה שוב מאוחר יותר."
-
+    def _test_ollama_connection(self):
         try:
-            prompt = self._create_prompt(message, language)
-            inputs = self.tokenizer(prompt, return_tensors="pt").to(self.model.device)
-            
-            outputs = self.model.generate(
-                **inputs,
-                max_new_tokens=512,
-                temperature=0.7,
-                do_sample=True,
-                pad_token_id=self.tokenizer.eos_token_id
-            )
-            
-            response = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
-            return self._clean_response(response)
-            
+            with httpx.Client() as client:
+                response = client.get(f"{self.ollama_host}/api/tags")
+                response.raise_for_status()
+                logger.info("Successfully connected to Ollama service")
         except Exception as e:
-            logger.error(f"Error generating response: {e}")
-            return "שגיאה בייצור תשובה. אנא נסה שוב."
+            logger.error(f"Failed to connect to Ollama service: {str(e)}")
+            raise
 
     def _create_prompt(self, message: str, language: str) -> str:
+        system_prompt = (
+            "You are a knowledgeable financial advisor specializing in structured investment products. "
+            "Respond in the same language as the user's message. "
+            "Keep responses clear, accurate, and focused on structured investments."
+        )
+        
         if language == "he":
-            return f"""<s>[INST] אתה יועץ מומחה למוצרים מובנים והשקעות אלטרנטיביות. 
-            ענה בעברית על השאלה הבאה בצורה מקצועית ומפורטת:
-            {message} [/INST]</s>"""
-        return f"""<s>[INST] You are an expert advisor in structured products and alternative investments.
-        Please answer the following question professionally and in detail:
-        {message} [/INST]</s>"""
+            system_prompt += " השב בעברית בצורה ברורה ומקצועית."
+        
+        # Format conversation history
+        conversation = ""
+        for entry in self.conversation_history[-self.max_history_length * 2:]:
+            conversation += f"{entry['role']}: {entry['content']}\n"
+        
+        return f"{system_prompt}\n\nConversation history:\n{conversation}\nUser: {message}\nAssistant:"
 
     def _clean_response(self, response: str) -> str:
-        # Remove the prompt and get only the model's response
-        parts = response.split("[/INST]")
-        return parts[-1].strip() if len(parts) > 1 else response.strip()
+        # Remove any 'Assistant:' prefix if present
+        if response.startswith("Assistant:"):
+            response = response[len("Assistant:"):].strip()
+        return response.strip()
 
-chat_model = MovneChat()
+    def generate_response(self, message: str, language: str = "he", is_qualified: bool = False) -> str:
+        try:
+            # Update conversation history
+            self.conversation_history.append({"role": "user", "content": message})
+            if len(self.conversation_history) > self.max_history_length * 2:
+                self.conversation_history = self.conversation_history[-self.max_history_length * 2:]
+            
+            prompt = self._create_prompt(message, language)
+            
+            # Call Ollama API
+            with httpx.Client() as client:
+                response = client.post(
+                    f"{self.ollama_host}/api/generate",
+                    json={
+                        "model": self.model_name,
+                        "prompt": prompt,
+                        "stream": False,
+                        "options": {
+                            "temperature": 0.7,
+                            "top_p": 0.95,
+                            "top_k": 50
+                        }
+                    }
+                )
+                response.raise_for_status()
+                result = response.json()
+                
+                generated_text = result.get("response", "")
+                cleaned_response = self._clean_response(generated_text)
+                
+                # Add response to conversation history
+                self.conversation_history.append({"role": "assistant", "content": cleaned_response})
+                
+                return cleaned_response
+
+        except Exception as e:
+            error_msg = "שגיאה בייצור תשובה. אנא נסה שוב." if language == "he" else "Error generating response. Please try again."
+            logger.error(f"Error generating response: {str(e)}")
+            return error_msg
