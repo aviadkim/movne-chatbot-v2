@@ -1,8 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
+from .models.chat_model import chat_model
+import logging
 
 app = FastAPI()
 
@@ -29,11 +31,13 @@ def health():
     return {"status": "healthy"}
 
 @app.post("/api/chat")
-def chat(request: ChatRequest):
-    return {
-        "response": "שלום! קיבלתי את ההודעה שלך: " + request.message if request.language == "he" 
-        else "Hello! I received your message: " + request.message
-    }
+async def chat(request: ChatRequest):
+    try:
+        response = chat_model.generate_response(request.message, request.language)
+        return {"response": response}
+    except Exception as e:
+        logger.error(f"Error in chat endpoint: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/{full_path:path}")
 async def serve_frontend(full_path: str):
