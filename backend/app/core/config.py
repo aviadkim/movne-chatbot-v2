@@ -2,8 +2,11 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from pathlib import Path
 import os
 from urllib.parse import quote_plus
+from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
+    OLLAMA_HOST: str = "http://localhost:11434"
+    OLLAMA_MODEL: str = "mistral"
     # Project settings
     PROJECT_NAME: str = "Movne Chatbot V2"
     API_V1_STR: str = "/api/v1"
