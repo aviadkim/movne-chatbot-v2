@@ -39,7 +39,8 @@ const Chat: React.FC = () => {
     return (
         <div className="chat-container">
             <div className="chat-header">
-                <h1>Movne Chat - צ'אט מבנה</h1>
+                <h1>Movne Investment Advisor - יועץ השקעות מובנות</h1>
+                <p className="subtitle">Your Personal Guide to Structured Investment Products</p>
             </div>
             <div className="chat-messages">
                 {messages.map((msg, index) => (
