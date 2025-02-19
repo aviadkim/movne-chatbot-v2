@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     # Model settings
     MODEL_PATH: Path = Path("models")
     KNOWLEDGE_BASE_PATH: Path = Path("data/knowledge_base")
+    HUGGINGFACE_TOKEN: str | None = os.getenv("HUGGINGFACE_TOKEN")
     
     # Security
     SECRET_KEY: str = "development_key"
