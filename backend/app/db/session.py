@@ -7,8 +7,8 @@ from ..core.config import settings
 
 logger = logging.getLogger(__name__)
 
-# Use the settings to construct the database URL
-SQLALCHEMY_DATABASE_URL = f"postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_SERVER}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DB}"
+# Use the DATABASE_URL from settings which already handles Railway's environment
+SQLALCHEMY_DATABASE_URL = settings.DATABASE_URL
 
 try:
     engine = create_engine(SQLALCHEMY_DATABASE_URL)
@@ -25,12 +25,13 @@ def get_db() -> Generator[Session, None, None]:
     finally:
         db.close()
 
-# בדיקת חיבור
+# Test database connection
 def test_connection():
     try:
         db = SessionLocal()
         db.execute("SELECT 1")
         db.close()
+        logger.info("Database connection test successful")
         return True
     except Exception as e:
         logger.error(f"Database test connection failed: {str(e)}")
