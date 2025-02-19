@@ -4,7 +4,13 @@ from pydantic import BaseModel
 from typing import Optional
 from .config import settings
 
-app = FastAPI()
+app = FastAPI(
+    title="Movne Chatbot",
+    description="AI-powered chatbot for Movne - משרד החינוך",
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc"
+)
 
 # Configure CORS with environment variables
 origins = settings.ALLOWED_ORIGINS.split(",")
@@ -22,7 +28,14 @@ class ChatRequest(BaseModel):
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {
+        "name": "Movne Chatbot",
+        "version": "1.0.0",
+        "status": "active",
+        "documentation": "/docs",
+        "health_check": "/health",
+        "chat_endpoint": "/api/chat"
+    }
 
 @app.get("/health")
 async def health_check():
