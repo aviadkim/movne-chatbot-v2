@@ -10,12 +10,6 @@ RUN npm run build
 FROM python:3.11-slim
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    git \
-    && rm -rf /var/lib/apt/lists/*
-
 # Copy frontend build
 COPY --from=frontend /app/frontend/build /app/static
 
