@@ -2,12 +2,13 @@
 FROM node:18-alpine as frontend
 WORKDIR /app/frontend
 
-# Install dependencies with legacy peer deps and clean npm cache
+# Install dependencies with better error handling
 COPY frontend/package*.json ./
 RUN npm cache clean --force && \
-    npm install --legacy-peer-deps --no-package-lock
+    npm install --legacy-peer-deps --no-package-lock && \
+    npm install ajv@8.12.0 --legacy-peer-deps --no-package-lock
 
-# Build frontend
+# Build frontend with production optimization
 COPY frontend/ ./
 RUN npm run build
 
