@@ -9,8 +9,13 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-app = FastAPI()
+from app.core.config import settings
+from sqlalchemy import create_engine
+from sqlalchemy.exc import OperationalError
 
+app = FastAPI(title=settings.PROJECT_NAME)
+
+# Configure CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -18,6 +23,34 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/health")
+async def health_check():
+    try:
+        # Check database connection
+        engine = create_engine(settings.DATABASE_URL)
+        with engine.connect() as connection:
+            connection.execute("SELECT 1")
+        
+        return {
+            "status": "healthy",
+            "database": "connected",
+            "environment": settings.ENVIRONMENT
+        }
+    except OperationalError:
+        raise HTTPException(
+            status_code=503,
+            detail="Database connection failed"
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=503,
+            detail=f"Service unavailable: {str(e)}"
+        )
+
+# Import and include API routers
+from app.api.api_v1.api import api_router
+app.include_router(api_router, prefix=settings.API_V1_STR)
 
 # Temporarily comment out static files for local development
 # app.mount("/static", StaticFiles(directory="/app/static"), name="static")

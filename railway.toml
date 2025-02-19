@@ -1,13 +1,16 @@
 [build]
 builder = "nixpacks"
-buildCommand = "pip install -r requirements.txt"
+buildCommand = "pip install -r backend/requirements.txt"
 
 [deploy]
-startCommand = "python -m uvicorn backend.app.main:app --host 0.0.0.0 --port ${PORT}"
+startCommand = "cd backend && python -m uvicorn app.main:app --host 0.0.0.0 --port ${PORT} --workers 1"
 healthcheckPath = "/health"
+healthcheckTimeout = 300
+healthcheckInterval = 15
 
 [deploy.envs]
 PYTHON_VERSION = "3.11.0"
+ENVIRONMENT = "production"
 PROJECT_NAME = "Movne Chatbot V2"
 API_V1_STR = "/api/v1"
 COMPOSE_PROJECT_NAME = "movne-chatbot-v2"
@@ -21,3 +24,4 @@ HUGGINGFACE_TOKEN = "${HUGGINGFACE_TOKEN}"
 SECRET_KEY = "${SECRET_KEY}"
 OLLAMA_HOST = "${OLLAMA_HOST}"
 ENVIRONMENT = "production"
+WEB_CONCURRENCY = "1"
