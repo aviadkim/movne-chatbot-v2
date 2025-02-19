@@ -1,17 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import './Chat.css';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+// Define API URL based on environment
+const API_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:8000'
+  : 'https://movne-chatbot-v2-production.up.railway.app';
+
+interface Message {
+    text: string;
+    isBot: boolean;
+}
 
 const Chat: React.FC = () => {
-    const [messages, setMessages] = useState<Array<{text: string, isBot: boolean}>>([]);
+    const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!input.trim()) return;
 
-        // Add user message
         setMessages(prev => [...prev, { text: input, isBot: false }]);
 
         try {
@@ -21,8 +28,6 @@ const Chat: React.FC = () => {
                 body: JSON.stringify({ message: input, language: 'he' })
             });
             const data = await response.json();
-            
-            // Add bot response
             setMessages(prev => [...prev, { text: data.response, isBot: true }]);
         } catch (error) {
             console.error('Error:', error);
