@@ -7,4 +7,4 @@ PORT=${PORT:-8000}
 cd "$(dirname "$0")/backend" || exit 1
 
 # Start the application with proper error handling
-python -m uvicorn app.main:app --host 0.0.0.0 --port "$PORT" --no-access-log
+python -m uvicorn app.main:app --host 0.0.0.0 --port ${PORT} --no-access-log
