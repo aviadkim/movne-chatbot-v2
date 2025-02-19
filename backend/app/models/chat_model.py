@@ -95,3 +95,12 @@ class MovneChat:
             error_msg = "שגיאה בייצור תשובה. אנא נסה שוב." if language == "he" else "Error generating response. Please try again."
             logger.error(f"Error generating response: {str(e)}")
             return error_msg
+
+    def is_initialized(self) -> bool:
+        """Check if the chat model is properly initialized and connected to Ollama"""
+        try:
+            self._test_ollama_connection()
+            return True
+        except Exception as e:
+            logger.error(f"Model initialization check failed: {str(e)}")
+            return False

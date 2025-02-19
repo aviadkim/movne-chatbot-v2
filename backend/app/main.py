@@ -33,16 +33,43 @@ def root():
 
 @app.get("/health")
 def health():
-    if not test_connection():
-        raise HTTPException(status_code=503, detail="Database connection failed")
+    health_status = {
+        "status": "initializing",
+        "database": "unknown",
+        "model": "unknown",
+        "details": {}
+    }
+    
+    # Check database connection
     try:
-        # Test if chat model is initialized
-        if not chat_model.is_initialized():
-            raise HTTPException(status_code=503, detail="Chat model not initialized")
-        return {"status": "healthy", "database": "connected", "model": "initialized"}
+        if test_connection():
+            health_status["database"] = "connected"
+        else:
+            health_status["database"] = "failed"
+            health_status["details"]["database_error"] = "Could not connect to database"
     except Exception as e:
-        logger.error(f"Health check failed: {str(e)}")
-        raise HTTPException(status_code=503, detail=str(e))
+        health_status["database"] = "error"
+        health_status["details"]["database_error"] = str(e)
+    
+    # Check chat model initialization
+    try:
+        if chat_model.is_initialized():
+            health_status["model"] = "initialized"
+        else:
+            health_status["model"] = "failed"
+            health_status["details"]["model_error"] = "Model not initialized"
+    except Exception as e:
+        health_status["model"] = "error"
+        health_status["details"]["model_error"] = str(e)
+    
+    # Determine overall status
+    if health_status["database"] == "connected" and health_status["model"] == "initialized":
+        health_status["status"] = "healthy"
+    else:
+        health_status["status"] = "unhealthy"
+        raise HTTPException(status_code=503, detail=health_status)
+    
+    return health_status
 
 @app.post("/api/v1/chat")
 async def chat(request: ChatRequest):
