@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from .models.chat_model import chat_model
+from .db.session import test_connection
 import logging
 
 logger = logging.getLogger(__name__)
@@ -32,7 +33,16 @@ def root():
 
 @app.get("/health")
 def health():
-    return {"status": "healthy"}
+    if not test_connection():
+        raise HTTPException(status_code=503, detail="Database connection failed")
+    try:
+        # Test if chat model is initialized
+        if not chat_model.is_initialized():
+            raise HTTPException(status_code=503, detail="Chat model not initialized")
+        return {"status": "healthy", "database": "connected", "model": "initialized"}
+    except Exception as e:
+        logger.error(f"Health check failed: {str(e)}")
+        raise HTTPException(status_code=503, detail=str(e))
 
 @app.post("/api/v1/chat")
 async def chat(request: ChatRequest):
