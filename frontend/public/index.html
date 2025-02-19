@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="rtl">
+<html dir="rtl" lang="en">
 <head>
     <title>Movne Bot</title>
     <meta charset="UTF-8">
@@ -65,9 +65,67 @@
             text-align: center;
             margin-bottom: 10px;
         }
+        .preview-notice {
+            display: none;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            margin: 20px;
+        }
+      
+        .chat-preview {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .user-message {
+            background-color: #e3f2fd;
+            margin-left: 20%;
+        }
+
+        .bot-message {
+            background-color: #f5f5f5;
+            margin-right: 20%;
+        }
     </style>
 </head>
 <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    
+    <!-- Preview content (only shows when React isn't running) -->
+    <div class="preview-notice">
+      <h2>MovNE Chatbot Preview</h2>
+      <p>This is a static preview of the chatbot interface. To see the full interactive version:</p>
+      <ol>
+        <li>Run <code>npm start</code> in the frontend directory</li>
+        <li>Run <code>uvicorn main:app</code> in the backend directory</li>
+        <li>Ensure your database is running</li>
+      </ol>
+
+      <div class="chat-preview">
+        <div class="message bot-message">
+          Hello! I'm MovNE Chatbot. How can I help you today?
+        </div>
+        <div class="message user-message">
+          Can you tell me about MovNE's services?
+        </div>
+        <div class="message bot-message">
+          I'd be happy to tell you about MovNE's services! We specialize in...
+        </div>
+      </div>
+    </div>
+
     <div id="status">מתחבר לשרת...</div>
     <div id="chat-container">
         <h1>צ'אט עם Movne Bot</h1>
@@ -140,6 +198,13 @@
                 sendMessage();
             }
         });
+
+        // Show preview notice if React hasn't mounted
+        setTimeout(() => {
+            if (!document.querySelector('#root').children.length) {
+                document.querySelector('.preview-notice').style.display = 'block';
+            }
+        }, 1000);
     </script>
 </body>
 </html>

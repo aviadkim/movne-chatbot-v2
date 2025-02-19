@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pathlib import Path
+import os
 
 class Settings(BaseSettings):
     # Project settings
@@ -21,6 +22,11 @@ class Settings(BaseSettings):
     # Security
     SECRET_KEY: str = "development_key"
     
+    # Railway specific settings
+    PORT: int = int(os.getenv("PORT", 8000))
+    RAILWAY_STATIC_URL: str | None = None
+    ENVIRONMENT: str = "development"
+    
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding='utf-8',
@@ -30,5 +36,9 @@ class Settings(BaseSettings):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.DATABASE_URL = f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}/{self.POSTGRES_DB}"
+        if os.getenv("RAILWAY_STATIC_URL"):
+            self.ENVIRONMENT = "production"
+        # Use Railway's DATABASE_URL if provided
+        self.DATABASE_URL = os.getenv("DATABASE_URL", self.DATABASE_URL)
 
 settings = Settings()
