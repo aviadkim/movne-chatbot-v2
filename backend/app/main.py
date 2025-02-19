@@ -19,7 +19,7 @@ class ChatRequest(BaseModel):
 
 @app.get("/")
 async def root():
-    return {"message": "Movne Bot API is running"}
+    return {"message": "Hello World"}
 
 @app.get("/health")
 async def health_check():
