@@ -15,6 +15,14 @@ class MovneChat:
             self.conversation_history: List[Dict[str, str]] = []
             self.max_history_length = 5  # Keep last 5 exchanges
             
+            # Configure tokenizer settings
+            self.tokenizer_config = {
+                "pad_token": "[PAD]",
+                "padding_side": "right",
+                "truncation": True,
+                "max_length": 512
+            }
+            
             # Test connection to Ollama
             self._test_ollama_connection()
             logger.info("Chat model initialized successfully with Ollama")
@@ -65,7 +73,7 @@ class MovneChat:
             
             prompt = self._create_prompt(message, language)
             
-            # Call Ollama API
+            # Call Ollama API with tokenizer configuration
             with httpx.Client() as client:
                 response = client.post(
                     f"{self.ollama_host}/api/generate",
@@ -76,7 +84,10 @@ class MovneChat:
                         "options": {
                             "temperature": 0.7,
                             "top_p": 0.95,
-                            "top_k": 50
+                            "top_k": 50,
+                            "pad_token": self.tokenizer_config["pad_token"],
+                            "padding": True,
+                            "max_length": self.tokenizer_config["max_length"]
                         }
                     }
                 )
@@ -91,6 +102,10 @@ class MovneChat:
                 
                 return cleaned_response
 
+        except httpx.HTTPError as e:
+            logger.error(f"HTTP error occurred: {str(e)}")
+            error_msg = "שגיאת תקשורת. אנא נסה שוב." if language == "he" else "Communication error. Please try again."
+            return error_msg
         except Exception as e:
             error_msg = "שגיאה בייצור תשובה. אנא נסה שוב." if language == "he" else "Error generating response. Please try again."
             logger.error(f"Error generating response: {str(e)}")
