@@ -22,11 +22,6 @@ class Settings(BaseSettings):
     POSTGRES_SERVER: str = os.getenv("POSTGRES_SERVER", "localhost")
     DATABASE_URL: Union[str, None] = None
     
-    # Model settings
-    MODEL_PATH: Path = Path("models")
-    KNOWLEDGE_BASE_PATH: Path = Path("data/knowledge_base")
-    HUGGINGFACE_TOKEN: Union[str, None] = os.getenv("HUGGINGFACE_TOKEN")
-    
     # Security
     SECRET_KEY: str = os.getenv("SECRET_KEY", "development_key")
     

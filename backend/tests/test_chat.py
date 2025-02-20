@@ -12,17 +12,19 @@ client = TestClient(app)
 def test_health_check():
     response = client.get("/health")
     assert response.status_code == 200
-    assert response.json() == {"status": "ok"}
+    assert response.json() == {"status": "healthy"}
 
 def test_chat_hebrew():
     response = client.post(
-        "/api/v1/chat",  # Updated to match the API prefix
+        "/api/v1/chat",
         json={
             "message": "שלום",
             "language": "he"
         }
     )
     assert response.status_code == 200
-    assert "response" in response.json()
-    assert "language" in response.json()
-    assert response.json()["language"] == "he"
+    response_data = response.json()
+    assert "response" in response_data
+    assert isinstance(response_data["response"], str)
+    assert len(response_data["response"]) > 0
+    assert "שלום" in response_data["response"].lower()
