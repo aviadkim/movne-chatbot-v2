@@ -3,6 +3,7 @@ from pathlib import Path
 import os
 from urllib.parse import quote_plus
 from pydantic_settings import BaseSettings
+from typing import Union
 
 class Settings(BaseSettings):
     # OpenAI settings
@@ -19,19 +20,19 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD", "changeme")
     POSTGRES_DB: str = os.getenv("POSTGRES_DB", "movne")
     POSTGRES_SERVER: str = os.getenv("POSTGRES_SERVER", "localhost")
-    DATABASE_URL: str | None = None
+    DATABASE_URL: Union[str, None] = None
     
     # Model settings
     MODEL_PATH: Path = Path("models")
     KNOWLEDGE_BASE_PATH: Path = Path("data/knowledge_base")
-    HUGGINGFACE_TOKEN: str | None = os.getenv("HUGGINGFACE_TOKEN")
+    HUGGINGFACE_TOKEN: Union[str, None] = os.getenv("HUGGINGFACE_TOKEN")
     
     # Security
     SECRET_KEY: str = os.getenv("SECRET_KEY", "development_key")
     
     # Railway specific settings
     PORT: int = int(os.getenv("PORT", 8000))
-    RAILWAY_STATIC_URL: str | None = None
+    RAILWAY_STATIC_URL: Union[str, None] = None
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
     
     model_config = SettingsConfigDict(
