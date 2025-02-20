@@ -2,7 +2,7 @@
 # Make sure to install CMake before pip install
 
 # Core dependencies
-fastapi>=0.68.0,<0.69.0
+fastapi>=0.100.0
 pydantic>=2.0.0
 pydantic-settings>=2.0.0
 uvicorn>=0.15.0,<0.16.0
