@@ -44,7 +44,7 @@ const Chat: React.FC = () => {
             </div>
             <div className="chat-messages">
                 {messages.map((msg, index) => (
-                    <div key={index} className={`message ${msg.isBot ? 'bot' : 'user'}`}>
+                    <div key={index} className={`message ${msg.isBot ? 'bot' : 'user'}`} dir="rtl">
                         {msg.text}
                     </div>
                 ))}

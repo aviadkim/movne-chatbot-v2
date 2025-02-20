@@ -7,9 +7,9 @@ from typing import Union
 
 class Settings(BaseSettings):
     # OpenAI settings
-    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
+    OPENAI_API_KEY: Union[str, None] = os.getenv("OPENAI_API_KEY")
     OPENAI_MODEL: str = os.getenv("OPENAI_MODEL", "gpt-4-turbo-preview")
-    OPENAI_TEMPERATURE: float = 0.7
+    OPENAI_TEMPERATURE: float = float(os.getenv("OPENAI_TEMPERATURE", "0.7"))
     # Project settings
     PROJECT_NAME: str = "Movne Chatbot V2"
     API_V1_STR: str = "/api/v1"
