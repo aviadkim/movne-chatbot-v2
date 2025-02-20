@@ -1,5 +1,10 @@
+# System requirements
+# Make sure to install CMake before pip install
+
+# Core dependencies
 fastapi>=0.68.0,<0.69.0
-pydantic>=1.8.0,<2.0.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
 uvicorn>=0.15.0,<0.16.0
 transformers>=4.30.0
 torch>=2.0.0
@@ -13,6 +18,7 @@ tqdm>=4.65.0
 requests>=2.31.0
 python-dotenv>=1.0.0
 loguru>=0.7.0
+openai>=1.0.0
 
 # Testing dependencies
 pytest>=7.4.0
