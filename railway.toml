@@ -1,6 +1,6 @@
 [build]
 builder = "nixpacks"
-buildCommand = "pip install -r backend/requirements.txt"
+buildCommand = "cd frontend && npm install && npm run build && cd ../backend && pip install -r requirements.txt"
 
 [deploy]
 startCommand = "cd backend && python -m uvicorn app.main:app --host 0.0.0.0 --port ${PORT} --workers 1"
@@ -11,16 +11,4 @@ healthcheckInterval = 15
 [deploy.envs]
 PYTHON_VERSION = "3.11.0"
 ENVIRONMENT = "production"
-PROJECT_NAME = "Movne Chatbot V2"
-API_V1_STR = "/api/v1"
-COMPOSE_PROJECT_NAME = "movne-chatbot-v2"
-POSTGRES_USER = "${POSTGRES_USER}"
-POSTGRES_PASSWORD = "${POSTGRES_PASSWORD}"
-POSTGRES_DB = "${POSTGRES_DB}"
-POSTGRES_SERVER = "${POSTGRES_SERVER}"
-MODEL_PATH = "models"
-KNOWLEDGE_BASE_PATH = "data/knowledge_base"
-HUGGINGFACE_TOKEN = "${HUGGINGFACE_TOKEN}"
-SECRET_KEY = "${SECRET_KEY}"
-OLLAMA_HOST = "${OLLAMA_HOST}"
-WEB_CONCURRENCY = "1"
+OPENAI_API_KEY = "${OPENAI_API_KEY}"

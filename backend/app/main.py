@@ -1,14 +1,13 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from .models.chat_model import MovneChat
-import logging
-
-logger = logging.getLogger(__name__)
+import os
 
 app = FastAPI(title="Movne Chatbot API")
 
-# Configure CORS
+# CORS setup
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -24,20 +23,17 @@ class ChatRequest(BaseModel):
     message: str
     language: str = "he"
 
-@app.get("/health")
-async def health_check():
-    try:
-        if not chat_model.is_initialized():
-            raise HTTPException(status_code=500, detail="Chat model not initialized")
-        return {"status": "healthy"}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
 @app.post("/api/v1/chat")
 async def chat(request: ChatRequest):
     try:
         response = chat_model.generate_response(request.message, request.language)
         return {"response": response}
     except Exception as e:
-        logger.error(f"Error in chat endpoint: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy" if chat_model.is_initialized() else "unhealthy"}
+
+# Serve frontend static files (mount last)
+app.mount("/", StaticFiles(directory="../frontend/build", html=True), name="static")
