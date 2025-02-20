@@ -3,12 +3,6 @@ from pathlib import Path
 from typing import List
 
 class RAGSettings(BaseSettings):
-    # Vector store settings
-    VECTOR_STORE_PATH: Path = Path("data/vector_store")
-    EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"  # Multilingual model
-    CHUNK_SIZE: int = 500
-    CHUNK_OVERLAP: int = 50
-    
     # Document processing
     SUPPORTED_LANGUAGES: List[str] = ["en", "he"]
     SUPPORTED_DOC_TYPES: List[str] = [
@@ -21,7 +15,6 @@ class RAGSettings(BaseSettings):
     
     # Retrieval settings
     MAX_RELEVANT_CHUNKS: int = 5
-    SIMILARITY_THRESHOLD: float = 0.7
     
     # Context management
     MAX_CONTEXT_WINDOW: int = 4096  # Maximum tokens for context window
