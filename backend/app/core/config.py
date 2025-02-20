@@ -7,7 +7,7 @@ from typing import Union
 
 class Settings(BaseSettings):
     # OpenAI settings
-    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
+    OPENAI_API_KEY: str = "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"
     OPENAI_MODEL: str = os.getenv("OPENAI_MODEL", "gpt-4-turbo-preview")
     OPENAI_TEMPERATURE: float = 0.7
     # Project settings
