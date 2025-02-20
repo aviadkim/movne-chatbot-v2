@@ -32,29 +32,28 @@ const ChatInterface: React.FC = () => {
     };
     checkHealth();
   }, []);
-
+  const detectLanguage = (text: string): string => {
+    const hebrewPattern = /[\u0590-\u05FF]/;
+    return hebrewPattern.test(text) ? 'he' : 'en';
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
-
-    const userMessage = { text: input, isBot: false };
+  const userMessage = { text: input, isBot: false };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
     setError(null);
-
-    try {
+  try {
       const response = await fetch(`${API_URL}/api/v1/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: input, language: 'he' })
+        body: JSON.stringify({ message: input, language: detectLanguage(input) })
       });
-
-      if (!response.ok) {
+  if (!response.ok) {
         throw new Error('שגיאה בתקשורת עם השרת / Error communicating with server');
       }
-
-      const data = await response.json();
+  const data = await response.json();
       setMessages(prev => [...prev, { text: data.response, isBot: true }]);
     } catch (err) {
       setError('שגיאה: לא ניתן להתחבר לשרת / Error: Cannot connect to server');
@@ -63,33 +62,47 @@ const ChatInterface: React.FC = () => {
       setIsLoading(false);
     }
   };
-
   return (
-    <Paper elevation={3} sx={{ p: 2, height: '80vh', display: 'flex', flexDirection: 'column' }}>
-      <Typography variant="h5" component="h1" gutterBottom align="center">
-        צ'אט עם Movne Bot
+    <Paper elevation={3} sx={{
+      p: 4,
+      height: '85vh',
+      display: 'flex',
+      flexDirection: 'column',
+      bgcolor: '#f8fafc',
+      borderRadius: 2,
+      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
+    }}>
+      <Typography variant="h4" component="h1" gutterBottom align="center" sx={{
+        fontWeight: 600,
+        color: '#1e293b',
+        mb: 3
+      }}>
+        Movne Investment Advisor
       </Typography>
-
-      <Box sx={{ flex: 1, overflow: 'auto', mb: 2, p: 2 }}>
+      <Typography variant="subtitle1" align="center" sx={{ mb: 4, color: '#64748b' }}>
+        Your Premium Financial Guide
+      </Typography>
         {messages.map((msg, index) => (
           <Box
             key={index}
             sx={{
               display: 'flex',
               justifyContent: msg.isBot ? 'flex-start' : 'flex-end',
-              mb: 2
+              mb: 2.5
             }}
           >
             <Paper
               elevation={1}
               sx={{
-                p: 2,
-                maxWidth: '70%',
-                bgcolor: msg.isBot ? 'grey.100' : 'primary.main',
-                color: msg.isBot ? 'text.primary' : 'white'
+                p: 2.5,
+                maxWidth: '75%',
+                bgcolor: msg.isBot ? '#f1f5f9' : '#2563eb',
+                color: msg.isBot ? '#334155' : '#fff',
+                borderRadius: 2,
+                boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)'
               }}
             >
-              <Typography>{msg.text}</Typography>
+              <Typography sx={{ fontSize: '1rem', lineHeight: 1.6 }}>{msg.text}</Typography>
             </Paper>
           </Box>
         ))}

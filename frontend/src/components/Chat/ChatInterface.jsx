@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { chatAPI } from '../../services/api';
 
 const ChatInterface = () => {
   const [messages, setMessages] = useState([]);
@@ -18,26 +19,20 @@ const ChatInterface = () => {
     setInputMessage('');
 
     try {
-      const response = await fetch('/api/v1/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: inputMessage,
-          language: 'he', // Default to Hebrew
-        }),
-      });
-
-      const data = await response.json();
+      const response = await chatAPI.sendMessage(inputMessage);
       
       setMessages(prev => [...prev, {
-        content: data.response,
+        content: response.response,
         sender: 'bot',
         timestamp: new Date().toISOString(),
       }]);
     } catch (error) {
       console.error('Error sending message:', error);
+      setMessages(prev => [...prev, {
+        content: 'Sorry, there was an error processing your message. Please try again.',
+        sender: 'bot',
+        timestamp: new Date().toISOString(),
+      }]);
     }
   };
 

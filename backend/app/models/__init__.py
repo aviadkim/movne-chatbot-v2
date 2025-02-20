@@ -1,3 +1,3 @@
-from .llm import chat_model
+from .chat_model import MovneChat
 
-__all__ = ['chat_model']
+__all__ = ['MovneChat']
