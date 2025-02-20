@@ -5,8 +5,10 @@ from urllib.parse import quote_plus
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    OLLAMA_HOST: str = "http://localhost:11434"
-    OLLAMA_MODEL: str = "mistral"
+    # OpenAI settings
+    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
+    OPENAI_MODEL: str = os.getenv("OPENAI_MODEL", "gpt-4-turbo-preview")
+    OPENAI_TEMPERATURE: float = 0.7
     # Project settings
     PROJECT_NAME: str = "Movne Chatbot V2"
     API_V1_STR: str = "/api/v1"
