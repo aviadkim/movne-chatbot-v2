@@ -2,20 +2,20 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from pathlib import Path
 import os
 from urllib.parse import quote_plus
-from pydantic_settings import BaseSettings
 from typing import Union
+from functools import lru_cache
 
 class Settings(BaseSettings):
     # OpenAI settings
-    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
-    OPENAI_MODEL: str = os.getenv("OPENAI_MODEL", "gpt-4-turbo-preview")
-    OPENAI_TEMPERATURE: float = float(os.getenv("OPENAI_TEMPERATURE", "0.7"))
+    OPENAI_API_KEY: str
+    OPENAI_MODEL: str = "gpt-4-turbo-preview"
+    OPENAI_TEMPERATURE: float = 0.7
 
     @property
     def validate_openai_key(self) -> str:
         """Validate and return the OpenAI API key"""
         if not self.OPENAI_API_KEY:
-            raise ValueError("OPENAI_API_KEY must be set in environment variables or .env file")
+            raise ValueError("OPENAI_API_KEY must be set in environment variables")
         return self.OPENAI_API_KEY
     # Project settings
     PROJECT_NAME: str = "Movne Chatbot V2"
