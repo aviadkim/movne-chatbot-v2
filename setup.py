@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="movne-chatbot",
-    version="3.1.0",
+    version="6.3.0",
     packages=find_packages(),
     install_requires=[
         line.strip()

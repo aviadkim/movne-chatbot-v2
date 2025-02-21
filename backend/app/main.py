@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from pathlib import Path
 from .api.v1.endpoints import chat
 from .core.config import Settings
 
@@ -29,8 +30,10 @@ def create_app() -> FastAPI:
     async def health_check():
         return {"status": "healthy"}
 
-    # Serve frontend static files (mount last)
-    app.mount("/", StaticFiles(directory="../frontend/build", html=True), name="static")
+    # Serve frontend static files (mount last) if directory exists
+    frontend_dir = Path("../frontend/build")
+    if frontend_dir.exists():
+        app.mount("/", StaticFiles(directory=str(frontend_dir), html=True), name="static")
 
     return app
 

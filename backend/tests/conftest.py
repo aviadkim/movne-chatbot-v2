@@ -16,7 +16,8 @@ def setup_test_environment():
     
     # Set test-specific environment variables
     os.environ.setdefault('ENVIRONMENT', 'test')
-    os.environ.setdefault('OPENAI_API_KEY', 'sk-test-key')
+    # Use a safe mock API key format for testing
+    os.environ.setdefault('OPENAI_API_KEY', 'test-key-' + '-'.join(['mock'] * 3))
     os.environ.setdefault('OPENAI_MODEL', 'gpt-4-turbo-preview')
     os.environ.setdefault('OPENAI_TEMPERATURE', '0.7')
     

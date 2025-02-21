@@ -40,7 +40,7 @@ class ChatService:
 
         try:
             logger.info(f"Processing message in {language} language, qualified investor: {is_qualified}")
-            response = self.chat_model.generate_response(message, language, is_qualified)
+            response = self.chat_model.generate_response(message, language)
             response = response.strip()
             self._log_chat_interaction(message, response, language)
             return response

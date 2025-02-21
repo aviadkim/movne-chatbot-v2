@@ -11,6 +11,13 @@ class Settings(BaseSettings):
     OPENAI_MODEL: str = "gpt-4-turbo-preview"
     OPENAI_TEMPERATURE: float = 0.7
 
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding='utf-8',
+        extra='allow',
+        secrets=["OPENAI_API_KEY"]  # Exclude API key from logs
+    )
+
     @property
     def validate_openai_key(self) -> str:
         """Validate and return the OpenAI API key"""

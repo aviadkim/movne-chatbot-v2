@@ -26,6 +26,8 @@ def test_chat_hebrew(settings):
             "language": "he"
         }
     )
+    print(f"Response status: {response.status_code}")
+    print(f"Response body: {response.text}")
     assert response.status_code == 200
     assert "response" in response.json()
     assert isinstance(response.json()["response"], str)
