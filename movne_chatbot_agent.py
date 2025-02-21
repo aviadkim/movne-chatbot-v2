@@ -306,6 +306,60 @@ CMD ["./venv/bin/python", "app.py"]
             logging.error(f"Failed to update Dockerfile: {e}")
             raise
 
+    def _setup_git(self) -> None:
+        """Initialize and configure Git repository."""
+        try:
+            # Initialize Git if not already initialized
+            if not (self.project_dir / '.git').exists():
+                subprocess.run(['git', 'init'], check=True, cwd=self.project_dir)
+                logging.info("Git repository initialized.")
+
+            # Configure Git remote
+            try:
+                subprocess.run(['git', 'remote', 'add', 'origin', self.github_repo], check=True, cwd=self.project_dir)
+            except subprocess.CalledProcessError:
+                # Remote might already exist
+                subprocess.run(['git', 'remote', 'set-url', 'origin', self.github_repo], check=True, cwd=self.project_dir)
+            
+            logging.info("Git remote configured successfully.")
+        except Exception as e:
+            logging.error(f"Failed to setup Git: {e}")
+            raise
+
+    def _deploy_to_railway(self) -> None:
+        """Deploy the application to Railway."""
+        try:
+            railway_path = r"C:\Users\Aviad\scoop\apps\railway\current\railway.exe"
+            
+            # Initialize Railway project
+            subprocess.run([railway_path, 'init'], check=True, cwd=self.project_dir)
+            logging.info("Railway project initialized.")
+            
+            # Link to existing project
+            subprocess.run([railway_path, 'link', self.railway_project_id], check=True, cwd=self.project_dir)
+            logging.info("Linked to Railway project.")
+            
+            # Set environment variables
+            env_vars = {
+                'OPENAI_API_KEY': self.openai_api_key,
+                'ENVIRONMENT': 'production',
+                'PORT': '8000',
+                'POSTGRES_USER': 'postgres',
+                'POSTGRES_DB': 'movne',
+                'SECRET_KEY': os.urandom(32).hex()
+            }
+            
+            for key, value in env_vars.items():
+                subprocess.run([railway_path, 'variables', 'set', f"{key}={value}"], check=True, cwd=self.project_dir)
+            
+            # Deploy to Railway
+            subprocess.run([railway_path, 'up'], check=True, cwd=self.project_dir)
+            logging.info("Deployed to Railway successfully.")
+            
+        except Exception as e:
+            logging.error(f"Failed to deploy to Railway: {e}")
+            raise
+
     def run(self) -> None:
         """Execute the complete deployment process."""
         try:
@@ -324,7 +378,13 @@ CMD ["./venv/bin/python", "app.py"]
             # Step 5: Update Dockerfile
             self._update_dockerfile()
             
-            # Step 6: Simulate bot for testing
+            # Step 6: Setup Git
+            self._setup_git()
+            
+            # Step 7: Deploy to Railway
+            self._deploy_to_railway()
+            
+            # Step 8: Simulate bot for testing
             self._simulate_bot()
             
             logging.info("Deployment process completed successfully.")
