@@ -1,8 +1,8 @@
 import os
 import pytest
 from fastapi.testclient import TestClient
-from app.main import app
-from app.core.config import Settings
+from backend.app.main import app
+from backend.app.core.config import Settings
 
 @pytest.fixture(scope="session")
 def settings():
