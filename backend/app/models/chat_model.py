@@ -8,8 +8,8 @@ logger = logging.getLogger(__name__)
 class MovneChat:
     def __init__(self):
         try:
-            # Initialize OpenAI client with the API key from settings
-            self.client = OpenAI(api_key=settings.OPENAI_API_KEY)
+            # Initialize OpenAI client with the validated API key from settings
+            self.client = OpenAI(api_key=settings.validate_openai_key)
             self.model_name = settings.OPENAI_MODEL
             self.temperature = settings.OPENAI_TEMPERATURE
             

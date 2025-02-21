@@ -7,9 +7,16 @@ from typing import Union
 
 class Settings(BaseSettings):
     # OpenAI settings
-    OPENAI_API_KEY: Union[str, None] = os.getenv("OPENAI_API_KEY")
+    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
     OPENAI_MODEL: str = os.getenv("OPENAI_MODEL", "gpt-4-turbo-preview")
     OPENAI_TEMPERATURE: float = float(os.getenv("OPENAI_TEMPERATURE", "0.7"))
+
+    @property
+    def validate_openai_key(self) -> str:
+        """Validate and return the OpenAI API key"""
+        if not self.OPENAI_API_KEY:
+            raise ValueError("OPENAI_API_KEY must be set in environment variables or .env file")
+        return self.OPENAI_API_KEY
     # Project settings
     PROJECT_NAME: str = "Movne Chatbot V2"
     API_V1_STR: str = "/api/v1"
