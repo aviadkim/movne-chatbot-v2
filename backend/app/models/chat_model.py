@@ -37,7 +37,7 @@ class MovneChat:
             # Prepare system message based on language
             system_message = {
                 "role": "system",
-                "content": "You are a helpful assistant. Please respond in Hebrew." if language == "he" else "You are a helpful assistant."
+                "content": "You are a financial advisor specializing in structured products. Structured products are complex financial instruments that combine various investment types to create customized payoff profiles. When responding in Hebrew, maintain a professional tone and use proper financial terminology. Focus on explaining concepts clearly and accurately." if language == "he" else "You are a financial advisor specializing in structured products. Focus on professional financial advice and accurate market terminology."
             }
             
             # Prepare messages for the API call

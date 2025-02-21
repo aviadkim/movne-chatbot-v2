@@ -1,34 +1,25 @@
-# Build frontend
-FROM node:18-alpine as frontend
-WORKDIR /app/frontend
 
-# Install dependencies with better error handling
-COPY frontend/package*.json ./
-RUN npm cache clean --force && \
-    npm install --legacy-peer-deps --no-package-lock && \
-    npm install ajv@8.12.0 --legacy-peer-deps --no-package-lock
-
-# Build frontend with production optimization
-COPY frontend/ ./
-RUN npm run build
-
-# Build backend
 FROM python:3.11-slim
+
+# Create a non-root user
+RUN useradd -m myuser && mkdir -p /app && chown myuser:myuser /app
 WORKDIR /app
 
-# Copy frontend build
-COPY --from=frontend /app/frontend/build /app/static
+# Install system dependencies
+RUN apt-get update &&     apt-get install -y --no-install-recommends git &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
 
-# Install backend dependencies
-COPY backend/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Switch to non-root user
+USER myuser
 
-# Copy backend code
-COPY backend/ /app/backend/
+# Set up Python environment
+COPY requirements.txt .
+RUN python -m venv venv &&     ./venv/bin/pip install --no-cache-dir -r requirements.txt
 
-# Copy entry script
-COPY start.sh .
-RUN chmod +x start.sh
+# Copy application code
+COPY . .
 
-EXPOSE 8000
-CMD ["./start.sh"]
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Command to run the application
+CMD ["./venv/bin/python", "app.py"]
