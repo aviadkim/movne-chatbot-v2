@@ -37,6 +37,14 @@ class Settings(BaseSettings):
     RAILWAY_STATIC_URL: Union[str, None] = None
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
     
+    @property
+    def validate_environment(self) -> str:
+        """Validate and return the environment setting"""
+        valid_environments = ["development", "production", "test"]
+        if self.ENVIRONMENT not in valid_environments:
+            raise ValueError(f"ENVIRONMENT must be one of {valid_environments}")
+        return self.ENVIRONMENT
+    
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding='utf-8',

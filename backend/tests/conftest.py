@@ -26,6 +26,11 @@ def setup_test_environment():
     # Cleanup after tests if needed
     # No cleanup needed for environment variables as they're process-specific
 
+@pytest.fixture
+def settings():
+    """Provide test settings configuration."""
+    return Settings()
+
 @pytest.fixture(scope="module")
 def client():
     # Create a test client using the app
