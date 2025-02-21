@@ -15,10 +15,9 @@ def test_health_check():
     assert response.status_code == 200
     assert response.json()["status"] == "healthy"
 
-def test_chat_hebrew():
+def test_chat_hebrew(settings):
     # Ensure we have a valid API key for testing
-    assert settings.OPENAI_API_KEY is not None, "OpenAI API key is not set"
-    assert settings.OPENAI_API_KEY != "your-api-key-here", "OpenAI API key is not properly configured"
+    assert settings.OPENAI_API_KEY == "sk-test-key", "OpenAI API key is not properly configured for testing"
     
     response = client.post(
         "/api/v1/chat",

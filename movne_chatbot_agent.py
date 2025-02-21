@@ -228,7 +228,8 @@ node_modules/
         try:
             # Create or update .env file
             env_path = self.project_dir / '.env'
-            env_content = f"OPENAI_API_KEY={self.openai_api_key}\nRAILWAY_PROJECT_ID={self.railway_project_id}\n"
+            # Do not write sensitive keys to .env file
+            env_content = f"RAILWAY_PROJECT_ID={self.railway_project_id}\n"
             env_path.write_text(env_content, encoding='utf-8')
             logging.info("Environment variables set up successfully.")
             
@@ -337,9 +338,10 @@ if __name__ == "__main__":
     GITHUB_REPO = "https://github.com/aviadkim/movne-chatbot-v2.git"
     RAILWAY_PROJECT_ID = "6688ad4"  # Replace with your actual Railway project ID
     
-    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")  # Use environment variable for security
+    # Get API key from environment variable only
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     if not OPENAI_API_KEY:
-        OPENAI_API_KEY = input("Please enter your OpenAI API key: ")
+        raise ValueError("Please set the OPENAI_API_KEY environment variable before running the script.")
     
     agent = MovneChatbotAgent(GITHUB_REPO, RAILWAY_PROJECT_ID, OPENAI_API_KEY)
     agent.run()
