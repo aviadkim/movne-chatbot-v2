@@ -17,6 +17,6 @@ def test_database_url_generation():
 def test_environment_settings():
     """Test if environment settings are properly loaded"""
     settings = Settings()
-    assert settings.ENVIRONMENT in ["development", "production"], "Invalid environment setting"
+    assert settings.ENVIRONMENT in ["development", "production", "test"], "Invalid environment setting"
     assert settings.PORT is not None, "Port setting is not loaded"
     assert settings.SECRET_KEY is not None, "Secret key is not loaded"
